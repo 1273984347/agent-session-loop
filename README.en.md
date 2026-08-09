@@ -6,6 +6,11 @@
 
 # agent-session-loop
 
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![CI](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml/badge.svg)](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml)
+[![skills-ref](https://img.shields.io/badge/skills--ref-passing-2ea44f)](https://agentskills.io)
+[![version](https://img.shields.io/badge/version-v1.0.0-1d76db)](https://github.com/1273984347/agent-session-loop/releases/latest)
+
 > One pipeline managing the full lifecycle of an agent session: **deep review (review) → 7-step wrap-up → retro evolution**.
 
 > "Agent sessions rarely break while working — usually at wrap-up: conclusions declared done without verification, experience closed away unsedimented, and the next session starts from zero."

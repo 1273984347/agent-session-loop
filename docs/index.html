@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>agent-session-loop · Agent 会话生命周期流水线</title>
+<style>
+  :root { color-scheme: light; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7; color: #24292f; background: #f6f8fa; padding: 48px 20px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 8px; }
+  .sub { color: #57606a; margin-bottom: 32px; }
+  .quote {
+    background: #fff8e6; border-left: 4px solid #d4a72c; padding: 12px 16px;
+    border-radius: 6px; margin-bottom: 32px; color: #4a3c0a;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .card {
+    background: #fff; border: 1px solid #d0d7de; border-radius: 10px; padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06); text-decoration: none; color: inherit; transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+  .card h2 { font-size: 1.1rem; margin-bottom: 6px; color: #0969da; }
+  .card p { font-size: .9rem; color: #57606a; }
+  .badge { display: inline-block; background: #ddf4ff; color: #0969da; border-radius: 20px; padding: 1px 10px; font-size: .75rem; margin-bottom: 8px; }
+  section { background: #fff; border: 1px solid #d0d7de; border-radius: 10px; padding: 24px; margin-bottom: 24px; }
+  section h2 { font-size: 1.1rem; margin-bottom: 12px; }
+  pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; padding: 12px 16px; font-size: .85rem; overflow-x: auto; }
+  a { color: #0969da; }
+  .links a { margin-right: 16px; }
+  footer { color: #8c959f; font-size: .8rem; text-align: center; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>agent-session-loop</h1>
+  <p class="sub">一条流水线管理 Agent 会话的完整生命周期：<strong>深度复检（审查）→ 7 步收尾 → 复盘沉淀</strong>。</p>
+
+  <div class="quote">"AI 会话很少在做事的时候崩溃，多半是在收尾的时候：结论没验证就宣布完成，经验没沉淀就关窗走人，下一个 session 从零开始。"</div>
+
+  <div class="grid">
+    <a class="card" href="https://github.com/1273984347/deep-review-loop">
+      <span class="badge">Phase 1 · 审查</span>
+      <h2>deep-review-loop</h2>
+      <p>5 轮深度复检（R0-R3）+ 4 层过拟合防护。审查 → 修复 → 重新审查，杜绝假收敛。</p>
+    </a>
+    <a class="card" href="https://github.com/1273984347/mem-wrap-up">
+      <span class="badge">Phase 2 · 收尾</span>
+      <h2>mem-wrap-up</h2>
+      <p>7 步收尾流水线 + 6 面状态矩阵。验证铁律：不信任「已落地」声明，Grep 为准。</p>
+    </a>
+    <a class="card" href="https://github.com/1273984347/self-evolution">
+      <span class="badge">Phase 3 · 沉淀</span>
+      <h2>self-evolution</h2>
+      <p>3 问自检 / 11 维度复盘，经验 → pattern → heuristic → policy，让经验可复利。</p>
+    </a>
+  </div>
+
+  <section>
+    <h2>安装</h2>
+    <p style="margin-bottom:8px">在 Claude Code、Codex 等支持 Agent Skills 的工具里，直接说：</p>
+    <pre>帮我安装这个 skill：https://github.com/1273984347/agent-session-loop</pre>
+    <p style="margin-top:8px;font-size:.9rem;color:#57606a">只需要某一阶段？可单独安装 <a href="https://github.com/1273984347/deep-review-loop">deep-review-loop</a> / <a href="https://github.com/1273984347/mem-wrap-up">mem-wrap-up</a> / <a href="https://github.com/1273984347/self-evolution">self-evolution</a>。</p>
+  </section>
+
+  <section>
+    <h2>了解更多</h2>
+    <p class="links">
+      <a href="https://github.com/1273984347/agent-session-loop">GitHub 仓库</a>
+      <a href="https://github.com/1273984347/agent-session-loop/blob/main/docs/three-skill-loop-blog.md">三 skill 闭环开源博客（中文）</a>
+      <a href="https://github.com/1273984347/agent-session-loop/blob/main/docs/three-skill-loop-blog.en.md">Blog (English)</a>
+      <a href="https://agentskills.io">Agent Skills 标准</a>
+    </p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/1273984347/agent-session-loop/blob/main/LICENSE">Apache-2.0</a> · Made for the agent community
+  </footer>
+</div>
+</body>
+</html>

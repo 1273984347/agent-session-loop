@@ -8,6 +8,11 @@
 
 > 一条流水线管理 Agent 会话的完整生命周期：**深度复检（审查）→ 7 步收尾 → 复盘沉淀**。
 
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![CI](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml/badge.svg)](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml)
+[![skills-ref](https://img.shields.io/badge/skills--ref-passing-2ea44f)](https://agentskills.io)
+[![version](https://img.shields.io/badge/version-v1.0.0-1d76db)](https://github.com/1273984347/agent-session-loop/releases/latest)
+
 > "AI 会话很少在做事的时候崩溃，多半是在收尾的时候：结论没验证就宣布完成，经验没沉淀就关窗走人，下一个 session 从零开始。"
 
 你大概也遇到过：审查、收尾、复盘这三个动作每个都在做，但每次都靠手动提醒、凭自觉、看心情——漏掉一个，整条闭环就断了。本仓库把三个独立 skill（`deep-review-loop` / `mem-wrap-up` / `self-evolution`）串成一条可独立使用的会话生命周期流水线，每个 session 结束时按序闭环，把「验证过的结论」沉淀为「可复用的经验」。
