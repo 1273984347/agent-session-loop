@@ -1,4 +1,4 @@
-﻿---
+---
 name: agent-session-loop
 description: >
   Manages the full agent session lifecycle as a single pipeline: deep review (审查) → wrap-up (收尾) →
