@@ -87,4 +87,4 @@ fixture 是**带矛盾点的真实工作区**（文档声称完成但代码残�
 
 - [x] self-evolution 补 evals（2026-08-10 完成：触发词 retro/全面复盘/周汇总；13 个短语含 dim 9/dim 11/知识层升级/单一事实源/P0-P3；4 fixtures 覆盖快速/全面/知识升级/行动分流）
 - [x] 为 mem-wrap-up 的 6 面状态矩阵写「运行态」验证的可执行脚本（2026-08-10 完成：scripts/runtime-audit.py，纯 stdlib 只读跨平台，探测端口/健康端点/部署标记/构建产物过期，状态词汇对齐 verified/stale/not-found/not-applicable；SKILL.md 步骤 2 新增"运行态面优先用脚本"；validate.py 加脚本存在性断言）
-- [ ] 三个仓库的 README 叙事升级（金句/痛点，参考 khazix-skills 风格）
+- [x] 三个仓库的 README 叙事升级（2026-08-10 完成：金句 blockquote + "你大概也遇到过"痛点叙事替换「解决什么问题」节；mem-wrap-up/self-evolution 补自然语言触发示例；agent-session-loop 顶部加痛点引言；deep-review-loop 英文 README 同步英文金句/痛点。参考 khazix-skills 风格）
