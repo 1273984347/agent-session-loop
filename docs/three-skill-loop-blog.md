@@ -116,12 +116,19 @@ experience（经验）→ pattern（模式，≥3 次）→ heuristic（启发�
 
 三个 skill 都是标准 Agent Skill（`SKILL.md` + `references/`），任何支持 Agent Skills 的客户端都能装。
 
-**方式 A：直接复制（通用，任何 agent 都行）**
+**方式 A：自然语言安装（推荐）**
+
+在 Claude Code、Codex 等支持 Agent Skills 的工具里，直接说：
+
+```text
+帮我安装这个 skill：https://github.com/1273984347/deep-review-loop
+```
+
+Agent 会自动 clone 到 skills 目录并注册，不用手动找路径。工具不支持时手动复制（四个仓库同理）：
 
 ```bash
 git clone https://github.com/1273984347/deep-review-loop.git
 cp -r deep-review-loop <你的 skills 目录>/deep-review-loop
-# mem-wrap-up / self-evolution / agent-session-loop 同理
 ```
 
 **方式 B：Claude Code 插件市场（一条命令）**

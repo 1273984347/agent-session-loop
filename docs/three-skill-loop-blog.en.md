@@ -117,12 +117,19 @@ It also supports scenario-based trimming: debug-only sessions run wrap-up only; 
 
 All three skills are standard Agent Skills (`SKILL.md` + `references/`), installable by any Agent Skills client.
 
-**Option A: copy the folder (universal)**
+**Option A: natural-language install (recommended)**
+
+In Claude Code, Codex, or any Agent Skills client, just say:
+
+```text
+Install this skill: https://github.com/1273984347/deep-review-loop
+```
+
+The agent clones it into your skills directory and registers it automatically. Manual copy also works (same for the other three repos):
 
 ```bash
 git clone https://github.com/1273984347/deep-review-loop.git
 cp -r deep-review-loop <your-skills-dir>/deep-review-loop
-# same for mem-wrap-up / self-evolution / agent-session-loop
 ```
 
 **Option B: Claude Code plugin marketplace (one command)**
