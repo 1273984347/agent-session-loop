@@ -85,6 +85,6 @@ fixture 是**带矛盾点的真实工作区**（文档声称完成但代码残�
 
 ## 五、后续待办
 
-- [ ] self-evolution 补 evals（核心短语候选：11 维度、dim 9、dim 11、知识升级、experience-log、单一事实源、P0/P1/P2/P3）
+- [x] self-evolution 补 evals（2026-08-10 完成：触发词 retro/全面复盘/周汇总；13 个短语含 dim 9/dim 11/知识层升级/单一事实源/P0-P3；4 fixtures 覆盖快速/全面/知识升级/行动分流）
 - [ ] 为 mem-wrap-up 的 6 面状态矩阵写「运行态」验证的可执行脚本（scripts/）
 - [ ] 三个仓库的 README 叙事升级（金句/痛点，参考 khazix-skills 风格）
