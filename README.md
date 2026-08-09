@@ -1,3 +1,9 @@
+<div align="center">
+
+**中文** · [English](./README.en.md)
+
+</div>
+
 # agent-session-loop
 
 > 一条流水线管理 Agent 会话的完整生命周期：**深度复检（审查）→ 7 步收尾 → 复盘沉淀**。
