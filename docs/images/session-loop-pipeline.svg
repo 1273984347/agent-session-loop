@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="340" viewBox="0 0 860 340" font-family="'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <!-- background -->
+  <rect x="0" y="0" width="860" height="340" rx="14" fill="#0f172a"/>
+  <text x="430" y="34" text-anchor="middle" fill="#e2e8f0" font-size="18" font-weight="700">Agent Session Lifecycle Pipeline</text>
+  <text x="430" y="58" text-anchor="middle" fill="#64748b" font-size="13">审查 Review → 收尾 Wrap-up → 沉淀 Evolution</text>
+
+  <!-- phase 1 -->
+  <rect x="28" y="86" width="250" height="180" rx="12" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+  <circle cx="58" cy="118" r="16" fill="#3b82f6"/>
+  <text x="58" y="123" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">1</text>
+  <text x="84" y="124" fill="#f1f5f9" font-size="16" font-weight="700">审查 Review</text>
+  <text x="48" y="152" fill="#94a3b8" font-size="12">5 轮深度复检 R0→R3</text>
+  <text x="48" y="172" fill="#94a3b8" font-size="12">3 独立 verifier + 对抗审查</text>
+  <text x="48" y="192" fill="#94a3b8" font-size="12">4 层过拟合防护</text>
+  <text x="48" y="212" fill="#94a3b8" font-size="12">收敛曲线 + ≥3 residual</text>
+  <text x="48" y="244" fill="#38bdf8" font-size="11">输出: 真收敛结论 + 残余风险</text>
+
+  <!-- arrow 1 -->
+  <path d="M 290 176 L 322 176" stroke="#38bdf8" stroke-width="3" marker-end="url(#arr)"/>
+
+  <!-- phase 2 -->
+  <rect x="330" y="86" width="250" height="180" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="360" cy="118" r="16" fill="#f59e0b"/>
+  <text x="360" y="123" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">2</text>
+  <text x="386" y="124" fill="#f1f5f9" font-size="16" font-weight="700">收尾 Wrap-up</text>
+  <text x="350" y="152" fill="#94a3b8" font-size="12">7 步收尾流水线</text>
+  <text x="350" y="172" fill="#94a3b8" font-size="12">5 phase 审计 + 6 面状态矩阵</text>
+  <text x="350" y="192" fill="#94a3b8" font-size="12">验证铁律: 声明≠事实</text>
+  <text x="350" y="212" fill="#94a3b8" font-size="12">sediment 经验沉淀</text>
+  <text x="350" y="244" fill="#fbbf24" font-size="11">输出: 收尾报告 + 沉淀记录</text>
+
+  <!-- arrow 2 -->
+  <path d="M 592 176 L 624 176" stroke="#38bdf8" stroke-width="3" marker-end="url(#arr)"/>
+
+  <!-- phase 3 -->
+  <rect x="632" y="86" width="200" height="180" rx="12" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <circle cx="662" cy="118" r="16" fill="#22c55e"/>
+  <text x="662" y="123" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">3</text>
+  <text x="688" y="124" fill="#f1f5f9" font-size="16" font-weight="700">沉淀 Evolution</text>
+  <text x="652" y="152" fill="#94a3b8" font-size="12">3 问自检 / 11 维度复盘</text>
+  <text x="652" y="172" fill="#94a3b8" font-size="12">知识升级链路</text>
+  <text x="652" y="192" fill="#94a3b8" font-size="12">experience→pattern→policy</text>
+  <text x="652" y="212" fill="#94a3b8" font-size="12">行动项 P0-P3 分流</text>
+  <text x="652" y="244" fill="#4ade80" font-size="11">输出: 复利经验 + 规则</text>
+
+  <!-- feedback loop -->
+  <path d="M 732 278 L 732 300 L 60 300 L 60 278" fill="none" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4"/>
+  <text x="396" y="318" text-anchor="middle" fill="#64748b" font-size="12">下一 session 起点 = 本轮沉淀的规则（复利闭环）</text>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+</svg>

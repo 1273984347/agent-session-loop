@@ -1,0 +1,19 @@
+{
+  "name": "agent-session-loop",
+  "owner": {
+    "name": "1273984347"
+  },
+  "metadata": {
+    "description": "Agent session lifecycle pipeline: deep review → wrap-up → evolution",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agent-session-loop",
+      "description": "Session lifecycle pipeline skill: review (审查) → wrap-up (收尾) → evolution (沉淀)",
+      "source": "./",
+      "strict": false,
+      "skills": ["./"]
+    }
+  ]
+}

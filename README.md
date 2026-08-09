@@ -27,14 +27,30 @@
 
 ## 安装
 
-**方式 1：复制目录**——将本仓库 clone 或下载后，把 `SKILL.md` + `references/` 整个目录放入你的 agent 的 skills 目录：
+标准 Agent Skill（`SKILL.md` + `references/`），任何支持 Agent Skills 的客户端都能装。三种方式任选：
+
+**方式 A：直接复制（通用）**
 
 ```bash
 git clone https://github.com/1273984347/agent-session-loop.git
 cp -r agent-session-loop <your-skills-dir>/agent-session-loop
 ```
 
-**方式 2：搭配独立 skill**——如果你只需要某一阶段，可单独安装：
+**方式 B：Claude Code 插件市场（一条命令）**
+
+```text
+/plugin marketplace add 1273984347/agent-session-loop
+/plugin install agent-session-loop@agent-session-loop
+```
+
+**方式 C：skills.sh CLI（Agent 界的 npm）**
+
+```bash
+npm install -g @anthropic-ai/skills
+npx skills add https://github.com/1273984347/agent-session-loop
+```
+
+**搭配独立 skill**——如果你只需要某一阶段，可单独安装：
 - [deep-review-loop](https://github.com/1273984347/deep-review-loop)（审查）
 - [mem-wrap-up](https://github.com/1273984347/mem-wrap-up)（收尾）
 - [self-evolution](https://github.com/1273984347/self-evolution)（沉淀）
