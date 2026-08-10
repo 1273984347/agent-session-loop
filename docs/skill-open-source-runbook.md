@@ -89,3 +89,28 @@ fixture 是**带矛盾点的真实工作区**（文档声称完成但代码残�
 - [x] 为 mem-wrap-up 的 6 面状态矩阵写「运行态」验证的可执行脚本（2026-08-10 完成：scripts/runtime-audit.py，纯 stdlib 只读跨平台，探测端口/健康端点/部署标记/构建产物过期，状态词汇对齐 verified/stale/not-found/not-applicable；SKILL.md 步骤 2 新增"运行态面优先用脚本"；validate.py 加脚本存在性断言）
 - [x] 三个仓库的 README 叙事升级（2026-08-10 完成：金句 blockquote + "你大概也遇到过"痛点叙事替换「解决什么问题」节；mem-wrap-up/self-evolution 补自然语言触发示例；agent-session-loop 顶部加痛点引言；deep-review-loop 英文 README 同步英文金句/痛点。参考 khazix-skills 风格。**2026-08-10 追加：4 仓库均已补 README.en.md 英文版（含金句/痛点/触发示例，agent-session-loop 含英文流水线图）+ 中英导航切换**）
 - [x] 开源工程 P0+P1 补齐（2026-08-10 完成：4 仓库 GitHub description + 开启 Discussions + 版本 Release tag（v1.3.0/v1.1.0/v1.0.0×2）；README 徽章（CI/skills-ref/version）；CONTRIBUTING/CoC/SECURITY/CHANGELOG；issue/PR 模板；agent-session-loop 开 GitHub Pages 聚合页 docs/index.html + 4 仓库 homepageUrl）
+- [x] 可执行行为 eval + 跨源版本 lint（2026-08-10 完成：3 个 skill 仓库各新增 evals/run_behavior.py（确定性协议校验器，每 eval 4-7 条机械断言，纯 stdlib/只读/CI-safe）；4 仓库各新增 scripts/version-lint.py（SKILL.md frontmatter ↔ README 版本表 ↔ CHANGELOG 头 ↔ marketplace.json 四源一致）；validate.yml 加两步（run_behavior + version-lint））
+
+## 六、外部 skill 市场注册（2026-08-10 建立 · 需用户完成账号步骤）
+
+**前置说明**：两个平台都需要创建外部账号（Tessl API key / ClawHub GitHub OAuth），无法由 agent 代完成。工程侧已就绪（workflow + 指引），用户完成下列步骤后即可激活。
+
+### Tessl（tessl.io · registry · CLI 发布 · khazix 发布源即 "CLI"）
+
+1. 浏览器注册/登录 [tessl.io](https://tessl.io/registry)（支持 GitHub 登录）→ 创建 workspace
+2. 创建 API key：[tessl.io/account/api-keys](https://tessl.io/account/api-keys)（只显示一次，复制保存）
+3. 每个仓库 GitHub Settings → Secrets and variables → Actions → New repository secret：名 `TESSL_TOKEN`，值 = API key（4 个仓库都要）
+4. 已就绪的 `.github/workflows/publish-tessl.yml`（push main 自动 `tessl skill review ./SKILL.md` + `tessl plugin publish`；未设 secret 时 `if: secrets.TESSL_TOKEN != ''` 自动跳过，不影响主 CI）
+5. 首次 publish 若报错（plugin 配置/workspace），按报错补 `.tessl-plugin/plugin.json` 或 workspace 参数
+
+### ClawHub（clawhub.ai · OpenClaw 官方技能市场）
+
+1. 浏览器访问 [clawhub.ai](https://clawhub.ai) → GitHub 登录
+2. 用发布入口（publish）将 4 个仓库注册为 publisher；平台做安全扫描 + 审核（moderated releases）
+3. 发布成功后平台分配版本号（如 v1.0.0）
+
+### 待办（用户侧）
+
+- [ ] 用户完成 Tessl 注册 + 4 仓库 TESSL_TOKEN secret
+- [ ] 用户完成 ClawHub 登录 + 发布
+- [ ] 发布成功后在 8 个 README 补 Tessl/ClawHub badge（参考 khazix：ClawHub v1.0.0-EC4899 / Tessl published-3B82F6）+ 更新徽章行
