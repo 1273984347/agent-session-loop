@@ -2,6 +2,12 @@
 
 本文件记录 agent-session-loop 的版本演进，遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 风格。版本号与 `SKILL.md` 的 `metadata.version` 保持一致。
 
+## [Unreleased]
+
+### Fixed
+- 跨文件一致性：R0 表面检查补 expected hits 件（对齐 deep-review-loop 4 件套）
+- 过拟合警报层 3 描述升级为增强版（P0 反弹 1 轮 / P1 反弹 2 轮 / 持平 4 轮窗口，对齐 deep-review-loop）
+
 ## [1.0.0] - 2026-08-10 初始发布
 
 ### Added

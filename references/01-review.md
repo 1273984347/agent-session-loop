@@ -23,7 +23,7 @@
 ### R0 surface check
 
 1. **file size sanity**：Read 工具观察行数（目标 ≤500 行 / 5000 tokens）
-2. **residual verdict words**：Grep pattern `完成|PASS|OK|没问题|12/12|闭环`，count 应 = 0
+2. **residual verdict words**：Grep pattern `完成|PASS|12/12|闭环|OK|没问题|looks good`，count 应 = 0
 3. **expected hits 必现**：Grep pattern `R0|R1a|R1b|R2|R3|residual`，确认结构词命中
 4. **项目阶段判定** → N_max：比赛级=0 / 生产=3 / 原型=10；判定依据优先级：user 声明 > 项目记忆 > cwd 推断 > 默认 3
 
@@ -86,7 +86,7 @@ Round N: P0=0 / P1=0 / P2≤N_max / 接受残留=P1:A1/P2:A2 / 回归率≤30% (
 |:---|:---|
 | V1 | file exists + content count + link target + 行数 |
 | V2 | 5 步 grep 范式（size / 残留 / 期望 hits / 期望 0 hits / post-fix 实证） |
-| V3 | verdict 字眼 grep（`完成|PASS|OK|没问题|12/12|闭环`，历史 log 例外） |
+| V3 | verdict 字眼 grep（`完成|PASS|12/12|闭环|OK|没问题|looks good`，历史 log 例外） |
 | V4 | memory sync 4 维度（user 偏好 / 项目规则 / topics / retrospective） |
 | V5 | 3-case dry-run（best / worst / null），一次性工具必跑 |
 

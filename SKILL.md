@@ -97,7 +97,7 @@ metadata:
 
 **核心协议**（详情见 [references/01-review.md](references/01-review.md)）：
 
-1. **R0 表面检查**：file size + verdict 字眼 grep + 项目阶段判定（N_max）
+1. **R0 表面检查**：file size + verdict 字眼 grep + expected hits 必现 + 项目阶段判定（N_max）
 2. **R1a 3 独立 verifier**（3 subagent parallel，factual / completeness / reusability，必附工具证据）
 3. **R1b 对抗性审查**（1 subagent，default refuted=true + class-level scope + 严重度门槛）
 4. **R2 独立审计**（1 subagent，NOT inline，边际收益 gate）
@@ -106,7 +106,7 @@ metadata:
 **4 层过拟合防护**（本阶段强制执行）：
 - 层 1：P2 残留 N（比赛级 0 / 生产 3 / 原型 10）；P0/P1 必须为 0
 - 层 2：边际收益 gate（修复成本 > 危害 × 3 → 标记接受残留）
-- 层 3：过拟合警报（震荡 3 轮不单调 / 回归率 >30% → STOP 报告）
+- 层 3：过拟合警报（增强版：P0 反弹 1 轮即 STOP / P1 反弹连续 2 轮 / P0/P1 持平走 4 轮窗口停滞观察 / 回归率 >30% → STOP 报告；被动验证见 references/01-review.md）
 - 层 4：严重度门槛（P3 及以下不报；class-level instance 例外升级 P2）
 
 **阶段出口条件**：真收敛（P0=0 AND P1=0 AND 连续 2 轮无新 P0/P1）→ 携带收敛曲线 + residual risk 进入 Phase 2。
