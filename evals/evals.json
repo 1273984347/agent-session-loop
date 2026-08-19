@@ -1,0 +1,57 @@
+{
+  "skill_name": "agent-session-loop",
+  "evals": [
+    {
+      "id": 1,
+      "name": "closeout-claim",
+      "prompt": "这个 session 该收尾了，帮我跑一遍审查→收尾→沉淀，memory 之前说更新过，再核一遍。",
+      "expected_output": "执行三阶段闭环：Phase 1 收敛判定 → Phase 2 7 步收尾（含 4a/7a Grep spot-check）→ Phase 3 复盘沉淀；不信任「已更新」声明，发现 work-log 缺段与 fileCount 漂移立即补齐或标 pending。",
+      "files": ["evals/fixtures/eval-1-closeout-claim"],
+      "expectations": [
+        "Phase 2 文档同步 spot-check 抓到 project_memory 的 fileCount 声明虚高",
+        "work-log 缺 session-end security scan 段被检出并补齐（4 段 schema 完整）",
+        "收尾报告声称 memory 三件套已更新，但 topics.md 缺失 → 验证铁律 spot-check 必须抓出",
+        "被裁剪阶段显式标 not-applicable，不静默跳过"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "memory-audit",
+      "prompt": "收尾前先做 memory 健康检查和 5 phase 审计，看看有哪些问题。",
+      "expected_output": "执行 Phase 2 步骤 1-2：memory 健康检查 + 5 phase audit，输出 6 面状态矩阵与 5 phase 报告，发现 dup/empty/broken-link 缺陷并修复。",
+      "files": ["evals/fixtures/eval-2-memory-audit"],
+      "expectations": [
+        "dup audit 抓到同一规则在 user_profile 与 project_memory 双写",
+        "empty audit 抓到只有 frontmatter 的 stub 文件",
+        "broken-link audit 抓到指向不存在目标的链接",
+        "6 面状态矩阵每面标 verified-current / pending / not-applicable 等状态，不编造证据"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "phase-skip",
+      "prompt": "这个 session 是纯调试，帮我收尾，Phase 1 就不用跑了。",
+      "expected_output": "按场景裁剪规则处理：可裁剪阶段必须显式标 not-applicable 并说明理由，不允许静默跳过；收尾报告不输出 verdict 字眼，work-log 补齐 4 段 schema。",
+      "files": ["evals/fixtures/eval-3-phase-skip"],
+      "expectations": [
+        "识别「纯调试 session → Phase 2 最小化」场景，被裁剪阶段标 not-applicable + 理由",
+        "发现 fixture 报告中「跳过 Phase 1 无 not-applicable」的违规并纠正",
+        "work-log 4 段 schema 完整（ANED 3 指标 + milestones 必含）",
+        "输出不含 verdict 字眼（完成/闭环/PASS/OK/没问题）"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "doc-sync",
+      "prompt": "我刚把版本升到 1.0.0 并说文档同步过了，帮我收尾核一遍。",
+      "expected_output": "执行 Phase 2 步骤 4a 项目层文档同步 spot-check：Grep 验证版本号与任务 ID 实际落地，抓到 README 仍声明旧版本的 stale 文档，并验证 work-log 三件套字段完整。",
+      "files": ["evals/fixtures/eval-4-doc-sync"],
+      "expectations": [
+        "Grep spot-check 抓到 README 版本与 CHANGELOG 当前版本不一致",
+        "区分历史段（CHANGELOG 旧版本保留）与现役段（README 头部必须更新）",
+        "work-log 缺 retro_link 字段被检出并补齐",
+        "不信任「已同步」声明：每个声称同步的文件都实际 Grep 验证"
+      ]
+    }
+  ]
+}

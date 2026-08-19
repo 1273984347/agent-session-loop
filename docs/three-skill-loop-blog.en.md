@@ -146,9 +146,7 @@ All four repos ship `.claude-plugin/marketplace.json` — works out of the box.
 **Option C: skills.sh CLI (the npm of agents)**
 
 ```bash
-# install Anthropic's official skills CLI
-npm install -g @anthropic-ai/skills
-# install the skill from this repo
+# npx downloads the CLI on first run; no global install needed
 npx skills add https://github.com/1273984347/deep-review-loop
 ```
 

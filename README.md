@@ -67,7 +67,7 @@ cp -r agent-session-loop <your-skills-dir>/agent-session-loop
 **方式 C：skills.sh CLI（Agent 界的 npm）**
 
 ```bash
-npm install -g @anthropic-ai/skills
+# npx 首次运行会自动下载 skills CLI，无需全局安装
 npx skills add https://github.com/1273984347/agent-session-loop
 ```
 
@@ -92,8 +92,29 @@ npx skills add https://github.com/1273984347/agent-session-loop
 ## 环境适配
 
 - **路径**：正文使用 `<memory_root>` / `<project-slug>` 占位符，按你的 agent 环境替换（如 TRAE `.trae-cn/memory`、Claude Code projects 目录，或项目内 `.agent-memory`）。
-- **工具**：需要 subagent/task 派生能力 + 文件搜索工具（Grep/Read/LS）+ shell（PowerShell 示例，跨平台需相应调整）。
+- **工具**：需要 subagent/task 派生能力 + 文件搜索工具（Grep/Read/LS）+ shell（PowerShell 示例；平台工具名映射与 POSIX 等价命令见 SKILL.md「工具名映射（跨平台）」段）。
 - **MCP 扩展**：本 skill 与 MCP **互补**——MCP 提供外部工具/数据连接，本 skill 教 agent 如何编排这些工具的复杂工作流。如需接入 MCP，把 MCP server 作为**可选工具**声明（如 `compatibility` 字段注明「需要 X MCP 时使用」，无 MCP 时回退到内建工具），不要把 skill 绑定死在特定 server 上。
+
+## 版本兼容性
+
+| 检查项 | 值 |
+|---|---|
+| SKILL.md 版本 | 1.0.0 |
+| Agent Skills 标准 | 兼容（[agentskills.io](https://agentskills.io) 开放标准，frontmatter: name/description/license/metadata） |
+| frontmatter 校验 | 通过 `skills-ref validate`（CI 自动检查，见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
+| 结构回归检查 | 通过 `python evals/validate.py`（CI 自动检查） |
+| 运行依赖 | 无 Python/Node 脚本；需 subagent/task 派生 + 文件搜索工具（Grep/Read） |
+| MCP 依赖 | 无（可选接入） |
+| 联动 skill | [deep-review-loop](https://github.com/1273984347/deep-review-loop)（审查）/ [mem-wrap-up](https://github.com/1273984347/mem-wrap-up)（收尾）/ [self-evolution](https://github.com/1273984347/self-evolution)（沉淀）——不装也能独立运行 |
+
+**客户端兼容矩阵**：
+
+| 客户端 | 安装方式 | 支持 |
+|---|---|---|
+| TRAE | 复制目录到 skills 目录，自动注册 | ✅ |
+| Claude Code | `/plugin marketplace add` 或复制目录 | ✅ |
+| Codex / Cursor / OpenCode 等 | 复制目录（Agent Skills 标准客户端） | ✅ |
+| 其他 | 需支持 SKILL.md frontmatter + 渐进披露 | 视实现 |
 
 ## 许可证
 

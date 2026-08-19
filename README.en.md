@@ -67,7 +67,7 @@ cp -r agent-session-loop <your-skills-dir>/agent-session-loop
 **Option C: skills.sh CLI (the npm of agents)**
 
 ```bash
-npm install -g @anthropic-ai/skills
+# npx downloads the CLI on first run; no global install needed
 npx skills add https://github.com/1273984347/agent-session-loop
 ```
 
@@ -92,8 +92,29 @@ The agent auto-activates this skill and runs the three phases on session wrap-up
 ## Environment
 
 - **Paths**: use `<memory_root>` / `<project-slug>` placeholders — replace per your agent environment (e.g. TRAE `.trae-cn/memory`, Claude Code projects dir, or in-repo `.agent-memory`).
-- **Tools**: needs subagent/task spawning + file search (Grep/Read/LS) + shell (PowerShell examples; adjust per platform).
+- **Tools**: needs subagent/task spawning + file search (Grep/Read/LS) + shell (PowerShell examples; see the "工具名映射（跨平台）" section of SKILL.md for per-platform tool mapping and POSIX equivalents).
 - **MCP extension**: this skill and MCP are **complementary** — MCP provides external tool/data connections; the skill teaches the agent how to orchestrate complex workflows over those tools. To integrate MCP, declare the server as an **optional tool** (e.g. note "use when X MCP is needed" in `compatibility`, falling back to built-in tools without it) — never hard-bind the skill to a specific server.
+
+## Version compatibility
+
+| Check | Value |
+|---|---|
+| SKILL.md version | 1.0.0 |
+| Agent Skills standard | Compatible ([agentskills.io](https://agentskills.io); frontmatter: name/description/license/metadata) |
+| Frontmatter validation | `skills-ref validate` (CI, see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
+| Structural regression | `python evals/validate.py` (CI) |
+| Runtime deps | No Python/Node scripts; needs subagent spawning + file search (Grep/Read) |
+| MCP deps | None (optional) |
+| Linked skills | [deep-review-loop](https://github.com/1273984347/deep-review-loop) / [mem-wrap-up](https://github.com/1273984347/mem-wrap-up) / [self-evolution](https://github.com/1273984347/self-evolution) — works standalone |
+
+**Client compatibility**:
+
+| Client | Install method | Support |
+|---|---|---|
+| TRAE | Copy folder into skills dir, auto-registered | ✅ |
+| Claude Code | `/plugin marketplace add` or copy folder | ✅ |
+| Codex / Cursor / OpenCode etc. | Copy folder (Agent Skills standard clients) | ✅ |
+| Others | Requires SKILL.md frontmatter + progressive disclosure | Depends |
 
 ## License
 

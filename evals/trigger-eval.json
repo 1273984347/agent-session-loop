@@ -1,0 +1,53 @@
+{
+  "skill_name": "agent-session-loop",
+  "queries": [
+    {
+      "query": "这个 session 快结束了，帮我收尾",
+      "should_trigger": true
+    },
+    {
+      "query": "帮我 wrap up 一下，整理文档和记忆",
+      "should_trigger": true
+    },
+    {
+      "query": "批量修复了 15 个文件，帮我复检完再完整收尾",
+      "should_trigger": true
+    },
+    {
+      "query": "马上要提交了，帮我跑一遍审查→收尾→沉淀",
+      "should_trigger": true
+    },
+    {
+      "query": "文档和代码对不上了，帮我完整闭环一次",
+      "should_trigger": true
+    },
+    {
+      "query": "怀疑上次收尾是假收敛，重新走三阶段",
+      "should_trigger": true
+    },
+    {
+      "query": "帮我复检这份方案文档的收敛性",
+      "should_trigger": false
+    },
+    {
+      "query": "这条经验帮我复盘沉淀一下",
+      "should_trigger": false
+    },
+    {
+      "query": "这个函数报错了，帮我看看为什么",
+      "should_trigger": false
+    },
+    {
+      "query": "帮我写个 hello world",
+      "should_trigger": false
+    },
+    {
+      "query": "把这段 JSON 转成 YAML",
+      "should_trigger": false
+    },
+    {
+      "query": "解释一下什么是 HTTP 缓存",
+      "should_trigger": false
+    }
+  ]
+}

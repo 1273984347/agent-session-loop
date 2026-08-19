@@ -100,7 +100,7 @@ fixture 是**带矛盾点的真实工作区**（文档声称完成但代码残�
 1. 浏览器注册/登录 [tessl.io](https://tessl.io/registry)（支持 GitHub 登录）→ 创建 workspace
 2. 创建 API key：[tessl.io/account/api-keys](https://tessl.io/account/api-keys)（只显示一次，复制保存）
 3. 每个仓库 GitHub Settings → Secrets and variables → Actions → New repository secret：名 `TESSL_TOKEN`，值 = API key（4 个仓库都要）
-4. 已就绪的 `.github/workflows/publish-tessl.yml`（push main 自动 `tessl skill review ./SKILL.md` + `tessl plugin publish`；未设 secret 时 `if: secrets.TESSL_TOKEN != ''` 自动跳过，不影响主 CI）
+4. 已就绪的 `.github/workflows/publish-tessl.yml`（workflow_dispatch 手动触发：在 GitHub Actions 页 Run workflow 后自动 `tessl skill review ./SKILL.md` + `tessl plugin publish`；未设 secret 时 `env.TESSL_TOKEN == ''` 自动跳过，不影响主 CI）
 5. 首次 publish 若报错（plugin 配置/workspace），按报错补 `.tessl-plugin/plugin.json` 或 workspace 参数
 
 ### ClawHub（clawhub.ai · OpenClaw 官方技能市场）

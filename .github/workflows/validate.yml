@@ -25,3 +25,12 @@ jobs:
 
       - name: Validate SKILL.md
         run: skills-ref validate "$PWD"
+
+      - name: Run skill regression checks (evals/validate.py)
+        run: python evals/validate.py
+
+      - name: Run executable behavior evals
+        run: python evals/run_behavior.py
+
+      - name: Run version lint
+        run: python scripts/version-lint.py
