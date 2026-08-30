@@ -173,7 +173,19 @@ The process itself validated the review skill:
 2. **Path parameterization** — the originals were full of absolute paths (`C:\Users\...`). The open versions use `<memory_root>` / `<project-slug>` placeholders. **Sanitize your own skills first.**
 3. **Description is the trigger lifeline** — agents decide to load a skill from name + description alone. Too vague → never triggered; too broad → triggered where it shouldn't be.
 
-## 10. Closing
+## 10. Update (2026-08-31): cross-platform cleanup + macOS support
+
+Open-sourcing brought cross-platform feedback, so this round turns "TRAE-first" into truly "Agent-agnostic":
+
+1. **NEEDS_CONTEXT de-platformed** — this signal was a TRAE built-in; it is now a generic convention: any platform treats a subagent reporting "insufficient/missing context" the same fallback way.
+2. **New "no-subagent degradation mode"** — platforms without subagent/task spawning no longer stall: parallel review degrades to serial / main-agent rounds, independent review degrades to self-adversarial, always explicitly marked `degraded (no-subagent)`. **Degradation ≠ skipping** — core rounds still all run.
+3. **macOS support** — tool mapping adds zsh; every PowerShell example gets a POSIX equivalent (`Test-Path` → `test -e`, `Get-Content` → `wc -l`, `Get-ChildItem` → `find`, …); `<memory_root>` is now mapped per platform (Claude Code: `~/Library/Application Support/Claude/projects` on macOS vs `%USERPROFILE%\.claude\projects` on Windows).
+4. **First-use path guidance** — README Environment adds a "read before first use" block: unsure what `<memory_root>` maps to? Probe with `ls` / `Get-ChildItem` first — never guess paths.
+5. **Client matrix** — added WorkBuddy / QwenWork, grouped with TRAE (copy folder into skills dir, auto-registered).
+
+Released: deep-review-loop v1.3.1 / mem-wrap-up v1.1.1 / agent-session-loop v1.0.1 / self-evolution v1.0.1. The five-step CI gate (skills-ref + evals × 2 + version-lint + fragment-lint) is green.
+
+## 11. Closing
 
 The biggest change for me: **AI collaboration went from "conversation" to "compounding."** Every session ends with verified conclusions, handoff-ready state, and sedimented experience — the starting point of the next session.
 

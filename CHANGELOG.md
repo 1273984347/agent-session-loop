@@ -4,11 +4,11 @@
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-08-31
+
 ### Fixed
 - 跨文件一致性：R0 表面检查补 expected hits 件（对齐 deep-review-loop 4 件套）
 - 过拟合警报层 3 描述升级为增强版（P0 反弹 1 轮 / P1 反弹 2 轮 / 持平 4 轮窗口，对齐 deep-review-loop）
-
-## [1.0.1] - 2026-08-31
 
 ### Changed
 - 跨平台清理：NEEDS_CONTEXT 信号通用化（去掉 TRAE 平台绑定），compatibility 字段改为 subagent optional

@@ -172,7 +172,19 @@ npx skills add https://github.com/1273984347/deep-review-loop
 2. **路径参数化**：原版 skill 里全是个人绝对路径（`C:\Users\...`）。开源版全部改成 `<memory_root>` / `<project-slug>` 占位符——**自己的 skill 自己先脱敏**。
 3. **description 是触发命脉**：agent 只靠 name + description 决定要不要加载 skill。描述含糊，skill 永不触发；描述过宽，会在不该出现时刷存在感。
 
-## 十、结尾
+## 十、2026-08-31 更新：跨平台清理 + macOS 适配
+
+开源后收到不少跨平台使用反馈，这轮把「TRAE 优先」彻底改成了「Agent-agnostic」：
+
+1. **NEEDS_CONTEXT 去平台绑定**：这个信号原本是 TRAE 内建能力，现在改成通用约定——任何平台子代理报告「信息不足/上下文缺失」都按同一套 fallback 处理。
+2. **新增「无子代理平台降级模式」**：没有 subagent/task 派生能力的平台不再跑不动——并行审查降级为串行/主代理分轮内审，独立审查降级为自我对抗，且必须显式标注 `degraded (no-subagent)`。**降级 ≠ 跳过**，核心轮次一个不少。
+3. **macOS 适配**：工具映射表补 zsh；全部 PowerShell 示例补 POSIX 等价命令（`Test-Path` → `test -e`、`Get-Content` → `wc -l`、`Get-ChildItem` → `find` 等）；`<memory_root>` 路径按平台给出（Claude Code 在 macOS 是 `~/Library/Application Support/Claude/projects`，Windows 是 `%USERPROFILE%\.claude\projects`）。
+4. **路径占位符首次使用引导**：README 环境适配新增「首次使用必读」——不确定 `<memory_root>` 填什么时，先 `ls` / `Get-ChildItem` 探测环境，不凭空猜路径。
+5. **客户端兼容矩阵**：新增 WorkBuddy / QwenWork，与 TRAE 归为一类（复制目录到 skills 目录即自动注册）。
+
+版本已发布：deep-review-loop v1.3.1 / mem-wrap-up v1.1.1 / agent-session-loop v1.0.1 / self-evolution v1.0.1。CI 五步门禁（skills-ref + evals × 2 + version-lint + fragment-lint）全绿。
+
+## 十一、结尾
 
 这三个 skill 对我最大的改变：**AI 协作从「对话」变成了「复利」**。每次 session 结束，审查过的结论、收尾后的状态、沉淀下来的经验，都是下一次会话的起点。
 
