@@ -10,9 +10,9 @@ description: >
   Do not trigger for one-off single-file edits or casual Q&A, or when the user asks for a standalone
   deep review or retro — use deep-review-loop / self-evolution instead.
 license: Apache-2.0
-compatibility: Agent-agnostic. Requires subagent/task spawning, file search (Grep/Read), and a memory directory convention.
+compatibility: Agent-agnostic. Requires file search (Grep/Read) and a memory directory convention; subagent/task spawning optional (degradation mode when absent).
 metadata:
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # agent-session-loop
@@ -34,7 +34,7 @@ metadata:
 | Read / Edit / Write | 文件读写 | 各平台内建文件工具 / apply_patch |
 | LS / Glob | 枚举文件与目录 | `ls` / `Get-ChildItem` / glob |
 | Skill 工具 | 调用另一个 skill | 各平台 skill 机制；无则按对应 SKILL.md 手动执行 |
-| NEEDS_CONTEXT | 子代理缺上下文的回退信号 | TRAE 内建；其他平台等价于子代理报「信息不足」，按 fallback 处理 |
+| NEEDS_CONTEXT | 子代理缺上下文的回退信号 | 通用约定：子代理报告「信息不足/上下文缺失」时按 fallback 处理；个别平台内建等价信号（如 TRAE NEEDS_CONTEXT）直接映射 |
 
 **PowerShell 示例的 POSIX 等价命令**：
 
@@ -46,6 +46,18 @@ metadata:
 | 超大文件 | `Get-ChildItem -Recurse \| Where-Object {$_.Length -gt 50KB}` | `find . -type f -size +50k` |
 | 软链目标 | `Get-Item LINK \| Select-Object Target` | `readlink -f LINK` / `ls -l LINK` |
 | 命中计数 | Grep output_mode=count | `grep -c PATTERN FILE` / `rg -c PATTERN FILE` |
+
+## 无子代理平台的降级模式
+
+平台不支持子代理/任务派生时，**降级 ≠ 跳过**，三阶段流水线必须全部执行，只改变执行者：
+
+| 原执行方式 | 降级方式 | 铁律 |
+|:---|:---|:---|
+| Phase 1 R1a：3 个 parallel verifier | 串行逐个派发；无派发能力则由主代理分 3 轮独立视角内审 | 3-lens 拆成 3 轮独立检查，禁止一轮合并 |
+| Phase 1 R1b / R2：独立 subagent | 主代理自我对抗：换视角重读 + 默认 refute 自己结论 | self-audit ≠ 独立审计，降级显式标注 `degraded (no-subagent)` |
+| 子代理缺上下文回退（NEEDS_CONTEXT） | 主代理自查 scope 是否过宽，缩小到具体 file:line 后重跑 | 不允许静默跳过 |
+
+降级后收尾报告必须显式标注 `degraded (no-subagent mode)`，不编造子代理证据。
 
 ## 流水线总览
 

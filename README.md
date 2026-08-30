@@ -11,7 +11,7 @@
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![CI](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml/badge.svg)](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml)
 [![skills-ref](https://img.shields.io/badge/skills--ref-passing-2ea44f)](https://agentskills.io)
-[![version](https://img.shields.io/badge/version-v1.0.0-1d76db)](https://github.com/1273984347/agent-session-loop/releases/latest)
+[![version](https://img.shields.io/badge/version-v1.0.1-1d76db)](https://github.com/1273984347/agent-session-loop/releases/latest)
 
 > "AI 会话很少在做事的时候崩溃，多半是在收尾的时候：结论没验证就宣布完成，经验没沉淀就关窗走人，下一个 session 从零开始。"
 
@@ -99,7 +99,7 @@ npx skills add https://github.com/1273984347/agent-session-loop
 
 | 检查项 | 值 |
 |---|---|
-| SKILL.md 版本 | 1.0.0 |
+| SKILL.md 版本 | 1.0.1 |
 | Agent Skills 标准 | 兼容（[agentskills.io](https://agentskills.io) 开放标准，frontmatter: name/description/license/metadata） |
 | frontmatter 校验 | 通过 `skills-ref validate`（CI 自动检查，见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
 | 结构回归检查 | 通过 `python evals/validate.py`（CI 自动检查） |
