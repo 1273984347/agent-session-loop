@@ -4,6 +4,20 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-08-31
+
+### Fixed
+- 出口 ACK 门禁：residual 含 P1+ 或接受残留 → 等人类 `ACK + 风险接受` 才能进 Phase 2（漏洞 6）
+- 路径预检 + Grep 空结果判别：占位符使用前强制 `test -e`，预检失败中断问用户（漏洞 7/9/15）
+- 安全扫描局限标注：0 发现必须附「正则仅覆盖硬编码格式」注记（漏洞 16）
+- 知识层升级复核标记：pattern/heuristic 自动创建标 `review_status: pending`，reviewed 前不作权威规则（漏洞 13）
+- 快速模式全否强制留痕：写「本次无新经验（3 问全否）」，不允许跳过不写文件（漏洞 14）
+
+### Added
+- LLM 行为 eval（evals/run_behavior_llm.py，发布前手动门禁）
+- fragment-lint 交叉引用校验；version-lint 内容漂移软告警
+- README badge 改动态 release badge；CI 加 macos-latest runner + skills-ref pin
+
 ## [1.0.1] - 2026-08-31
 
 ### Fixed

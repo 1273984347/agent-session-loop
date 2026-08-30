@@ -9,7 +9,7 @@
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![CI](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml/badge.svg)](https://github.com/1273984347/agent-session-loop/actions/workflows/validate.yml)
 [![skills-ref](https://img.shields.io/badge/skills--ref-passing-2ea44f)](https://agentskills.io)
-[![version](https://img.shields.io/badge/version-v1.0.1-1d76db)](https://github.com/1273984347/agent-session-loop/releases/latest)
+[![version](https://img.shields.io/github/v/release/1273984347/agent-session-loop)](https://github.com/1273984347/agent-session-loop/releases/latest)
 
 > One pipeline managing the full lifecycle of an agent session: **deep review (review) → 7-step wrap-up → retro evolution**.
 
@@ -102,7 +102,7 @@ The agent auto-activates this skill and runs the three phases on session wrap-up
 
 | Check | Value |
 |---|---|
-| SKILL.md version | 1.0.1 |
+| SKILL.md version | 1.0.2 |
 | Agent Skills standard | Compatible ([agentskills.io](https://agentskills.io); frontmatter: name/description/license/metadata) |
 | CI gate | Five steps: `skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py` (see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
 | Runtime deps | Skill runtime: file search (Grep/Read) + optional shell; subagent optional (degradation mode when absent); CI lint scripts are dev-time only |

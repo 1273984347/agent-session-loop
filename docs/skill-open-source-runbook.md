@@ -58,6 +58,25 @@ fixture 是**带矛盾点的真实工作区**（文档声称完成但代码残�
 
 12 条查询（应触发 + 不应触发），对齐 agentskills.io optimizing-descriptions：不应触发要含**近失配**（关键词重叠但语义不同，如「帮我复检收敛」对 mem-wrap-up 是负例）。
 
+### 模式 D：LLM 行为 eval（真实运行验证，发布前手动门禁，不进 CI）
+
+静态断言（模式 A）只验证「文件里有关键词」，不验证「agent 真的能跑通流程」。发布前或协议改动后，跑一次真实 LLM 行为验证：
+
+```bash
+# 生成 4 个 eval prompt 到 evals/output/（含 SKILL.md 全文 + fixture 文件树）
+python evals/run_behavior_llm.py --manual
+
+# 方式 1：有 API key 时自动调用
+OPENAI_API_KEY=xxx python evals/run_behavior_llm.py --api
+
+# 方式 2：手动把每个 prompt 丢给任意 agent，输出存回 evals/output/eval-N-response.txt
+
+# 结构核对（收敛曲线 / ≥3 residual / 工具证据 / 无 verdict 禁词）
+python evals/run_behavior_llm.py --check
+```
+
+**注意**：`--check` 只做结构断言，**语义质量靠人工核对**（脚本会打印每个 eval 的 expectations 供人工逐条确认）。这是唯一需要人参与的环节。
+
 ## 三、两仓库 evals 设计对比
 
 | 维度 | deep-review-loop | mem-wrap-up |

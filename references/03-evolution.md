@@ -20,7 +20,7 @@
 ③ 有 Skill 缺口？→ 本该用但没用的 Skill
 ```
 
-**Step 2：根据答案决定动作**：全否 → 跳过不写文件；有 → 执行写入：
+**Step 2：根据答案决定动作**：全否 → **强制写一行「本次无新经验（3 问全否）」到 experience-log.md，不允许跳过不写文件**（Unknown Unknowns 防过滤——自己判断「没学到东西」可能只是不知道自己不知道）；有 → 执行写入：
 1. 追加 `<memory_root>/projects/<project-slug>/experience-log.md`（格式：日期/任务/Tags + 发现或踩坑或缺口 + 根因 + 下次怎么做）
 2. 有明确规则 → 追加 `experience-quickref.md`（`[编号] [关键词] — [一句话规则]`）
 3. 有 Skill 缺口 → 追加 `skill-usage-checklist.md`（`| [Skill名] | [场景] | [为什么没用] |`）
@@ -65,11 +65,12 @@
 
 | 条件 | 升级动作 |
 |:---|:---|
-| 同类经验 ≥3 次 + 跨任务 + 根因一致 | 创建 `knowledge/patterns/[name].md`（自动） |
-| pattern 成功率 >80% + 不引入新问题 | 创建 `knowledge/heuristics/[name].md`（自动） |
+| 同类经验 ≥3 次 + 跨任务 + 根因一致 | 创建 `knowledge/patterns/[name].md`（自动，但标注「待人工复核」） |
+| pattern 成功率 >80% + 不引入新问题 | 创建 `knowledge/heuristics/[name].md`（自动，但标注「待人工复核」——成功率是 AI 自评，须人工核实） |
 | heuristic 效果显著 | 写入 `knowledge/policies/`（**需人工确认**） |
 
-- knowledge/ 文件 frontmatter 标准：name / description / type / id / level / tags
+- **复核标记**：自动创建的 pattern/heuristic 文件 frontmatter 必须含 `review_status: pending`；人工复核通过后改为 `reviewed`。任何自动升级的规则在 `reviewed` 前**不得作为权威规则**驱动后续决策——只作参考候选。
+- knowledge/ 文件 frontmatter 标准：name / description / type / id / level / tags / review_status
 - 安全规则：只创建新文件不覆盖；已存在 → 追加；policies 一律人工确认
 
 **Step 5：执行行动计划（按优先级分流）**

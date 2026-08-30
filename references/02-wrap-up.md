@@ -52,6 +52,7 @@
 - 路径：`<memory_root>/projects/<project-slug>/<date>/work-log.md`
 - 4 段 schema（必含）：verification cost / throughput decoupling / ANED 3 指标 / session-end security scan（4+1 pattern：敏感信息/密钥/token/内部 URL/PII）
 - 必含字段：date / session_id / milestones / retro_link
+- **安全扫描局限标注**：0 发现时**必须**附注「本扫描为正则匹配（4+1 pattern），仅覆盖硬编码格式（如 `AKIA…`、`sk-…`），不覆盖配置类风险（权限、未加密连接串、暴露的内部 API）——不作为安全审计结论」；不得以「0 发现」表述为「安全通过」。
 
 ## 步骤 5：经验沉淀（sediment）
 

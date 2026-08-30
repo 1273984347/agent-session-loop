@@ -12,7 +12,7 @@ description: >
 license: Apache-2.0
 compatibility: Agent-agnostic. Requires file search (Grep/Read) and a memory directory convention; subagent/task spawning optional (degradation mode when absent).
 metadata:
-  version: "1.0.1"
+  version: "1.0.2"
 ---
 
 # agent-session-loop
@@ -122,6 +122,7 @@ metadata:
 - 层 4：严重度门槛（P3 及以下不报；class-level instance 例外升级 P2）
 
 **阶段出口条件**：真收敛（P0=0 AND P1=0 AND 连续 2 轮无新 P0/P1）→ 携带收敛曲线 + residual risk 进入 Phase 2。
+- **条件 ACK 门禁**：residual risk 含 P1 及以上，或收敛判定含「接受残留」→ 必须等人类 `ACK + 风险接受` 才能进 Phase 2；仅 P2 残留 → 自动放行，但收尾报告须标注「待确认项」。
 
 > 本阶段可与独立 skill [deep-review-loop](https://github.com/1273984347/deep-review-loop) 互换：装了独立 skill 时直接调用；未装时按本仓库 references/01-review.md 手动执行。
 
@@ -167,6 +168,11 @@ metadata:
 - `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；无现成 memory 系统时在项目内建 `.agent-memory/`）
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
+
+**路径预检（首次运行强制）**：
+- 用占位符前必须先验证路径存在：`test -e <memory_root>`（macOS/Linux）或 `Test-Path <memory_root>`（Windows）。
+- **预检失败 → 中断并问用户**，不允许用「猜测的路径」继续跑流水线。
+- **Grep 空结果判别**：Grep 返回 0 hits 时，先确认是「路径错误 / 文件不存在」还是「内容真无匹配」——用 `test -e` 验证目标文件/目录存在后再下结论；无法区分时标 `unverifiable` 并询问用户，**不得把「空结果」当「通过」**。
 
 **文件结构约定**：
 
