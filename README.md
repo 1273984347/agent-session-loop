@@ -113,8 +113,7 @@ npx skills add https://github.com/1273984347/agent-session-loop
 |---|---|---|
 | Claude Code | `/plugin marketplace add` 或复制目录 | ✅ |
 | Codex / Cursor / OpenCode 等 | 复制目录（Agent Skills 标准客户端） | ✅ |
-| WorkBuddy / QwenWork | 复制目录到 skills 目录，自动注册 | ✅ |
-| TRAE | 复制目录到 skills 目录，自动注册 | ✅ |
+| WorkBuddy / QwenWork / TRAE | 复制目录到 skills 目录，自动注册 | ✅ |
 | 其他 | 需支持 SKILL.md frontmatter + 渐进披露 | 视实现 |
 
 ## 许可证
