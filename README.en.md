@@ -92,10 +92,10 @@ The agent auto-activates this skill and runs the three phases on session wrap-up
 ## Environment
 
 - **Path placeholders (read before first use)**: the skill uses `<memory_root>` / `<project-slug>` placeholders — replace them before running:
-  - `<memory_root>` = your agent's memory root. Common setups: TRAE → `.trae-cn/memory`; Claude Code → projects dir; WorkBuddy → `~/.workbuddy/memory/` or in-repo `.workbuddy/memory/`; if no memory system exists, create an in-repo `.agent-memory/`.
+  - `<memory_root>` = your agent's memory root. Common setups: TRAE → `~/.trae-cn/memory`; Claude Code → `%USERPROFILE%\.claude\projects` (Windows) / `~/Library/Application Support/Claude/projects` (macOS); WorkBuddy → `~/.workbuddy/memory/` or in-repo `.workbuddy/memory/`; if no memory system exists, create an in-repo `.agent-memory/`.
   - `<project-slug>` = the current workspace's project dir name (e.g. `open-source`).
-  - **Not sure?** Run `ls` (POSIX) / `Get-ChildItem` (PowerShell) to inspect your agent environment's existing dirs, then map against the examples above; **never guess paths**. If the environment truly has no memory system, mark the step `not-applicable` — never fabricate evidence.
-- **Tools**: file search (Grep/Read/LS) + shell (PowerShell examples; see the "工具名映射（跨平台）" section of SKILL.md for per-platform tool mapping and POSIX equivalents); subagent/task spawning is **optional** — without it, the skill falls back to the degradation mode (see SKILL.md「无子代理平台的降级模式」: serial instead of parallel, explicitly marked `degraded (no-subagent)`).
+  - **Not sure?** Run `ls` (macOS/Linux) / `Get-ChildItem` (Windows) to inspect your agent environment's existing dirs, then map against the examples above; **never guess paths**. If the environment truly has no memory system, mark the step `not-applicable` — never fabricate evidence.
+- **Tools**: file search (Grep/Read/LS) + shell (PowerShell examples; macOS/Linux use bash/zsh equivalents — see SKILL.md「命令示例（Windows PowerShell ↔ macOS/Linux POSIX）」); subagent/task spawning is **optional** — without it, the skill falls back to the degradation mode (see SKILL.md「无子代理平台的降级模式」: serial instead of parallel, explicitly marked `degraded (no-subagent)`).
 - **MCP extension**: this skill and MCP are **complementary** — MCP provides external tool/data connections; the skill teaches the agent how to orchestrate complex workflows over those tools. To integrate MCP, declare the server as an **optional tool** (e.g. note "use when X MCP is needed" in `compatibility`, falling back to built-in tools without it) — never hard-bind the skill to a specific server.
 
 ## Version compatibility

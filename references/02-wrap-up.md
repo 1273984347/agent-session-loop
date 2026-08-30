@@ -15,7 +15,7 @@
 | 7 | memory 层 spot-check + 反向审查 | Grep + 调用 Phase 1 |
 
 ## 步骤 1：memory 健康检查
-1. 列 `<memory_root>/` 目录树大小：`Get-ChildItem -Recurse | Measure-Object -Line`
+1. 列 `<memory_root>/` 目录树大小：`Get-ChildItem -Recurse | Measure-Object -Line`（macOS/Linux：`find <memory_root> -type f | wc -l`）
 2. Grep 扫 user_profile.md / 各 project_memory.md 的 P0/P1/P2 标记
 3. 统计 session_memory_*.jsonl 文件数 + 总行数
 - **输出**：metrics（P0/P1/P2 数量 + fileCount + line count）
@@ -25,7 +25,7 @@
 2. **dup audit**：跨文件查重复条目（同一规则双写）
 3. **empty audit**：检查空文件 / stub
 4. **big-file audit**：找 >50KB 超大文件
-5. **broken-link audit**：Grep `file:///|\.md\)` 找链接，逐个 Test-Path 验证
+5. **broken-link audit**：Grep `file:///|\.md\)` 找链接，逐个 Test-Path 验证（macOS/Linux：`test -e`）
 - **输出**：5 phase 报告 + 6 面状态矩阵
 
 **6 面状态矩阵**：代码 / 运行态 / 文档 / 规则 / 记忆 / 工作区。每面标 `verified-current` / `changed-and-verified` / `pending` / `out-of-scope` / `not-applicable`。
@@ -71,10 +71,10 @@
 - 不毕业：一次性事故 / 个人偏好 / 未稳定探索 → 留在 memory
 
 ## 步骤 6：4-step verify
-1. file exists：`Test-Path <FILE>`
+1. file exists：`Test-Path <FILE>`（macOS/Linux：`test -f <FILE>`）
 2. content count：Grep count 验关键内容命中
-3. link target：`Get-Item <LINK> | Select-Object Target` 验软链
-4. 行数：`(Get-Content <FILE>).Count`
+3. link target：`Get-Item <LINK> | Select-Object Target` 验软链（macOS/Linux：`readlink -f <LINK>`）
+4. 行数：`(Get-Content <FILE>).Count`（macOS/Linux：`wc -l <FILE>`）
 - **输出**：P0=0 P1=0 P2=0 三零目标（列数据 + 实证，不写 OK/完成）
 
 ## 步骤 7：memory 层 spot-check + 反向审查

@@ -54,7 +54,7 @@
 **Step 3：生成报告** → `<memory_root>/projects/<project-slug>/<date>/retrospective.md`（11 段结构，每段对应一个维度输出）
 
 **Step 3.5：多件套同步 verify（强制）**——漏任一件 = 复盘未闭环：
-1. 复盘主 file（Test-Path 必存在）
+1. 复盘主 file（Test-Path 必存在；macOS/Linux：`test -f`）
 2. project_memory 更新（Grep 关键词 ≥1）
 3. user_profile 更新（如适用）
 4. experience-log 备忘段（Grep session 编号 ≥1）
@@ -81,7 +81,7 @@
 | P2（体验优化/非核心） | 等用户确认 |
 | P3（nice-to-have） | 只记录，不主动执行 |
 
-- 每个动作前：Test-Path 检查 → 存在则 Edit 追加（不覆盖），不存在则 Write 创建
+- 每个动作前：Test-Path 检查（macOS/Linux：`test -e`）→ 存在则 Edit 追加（不覆盖），不存在则 Write 创建
 - 动作类型：创建模板 / 更新 Skill（先 Read 再改）/ 追加经验条目 / 更新速查表 / 写入 patterns / heuristics / 更新 checklist
 
 ## 维度 9 详案（一次性工具沉淀，必走）
