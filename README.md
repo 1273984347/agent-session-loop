@@ -91,8 +91,11 @@ npx skills add https://github.com/1273984347/agent-session-loop
 
 ## 环境适配
 
-- **路径**：正文使用 `<memory_root>` / `<project-slug>` 占位符，按你的 agent 环境替换（如 TRAE `.trae-cn/memory`、Claude Code projects 目录，或项目内 `.agent-memory`）。
-- **工具**：需要 subagent/task 派生能力 + 文件搜索工具（Grep/Read/LS）+ shell（PowerShell 示例；平台工具名映射与 POSIX 等价命令见 SKILL.md「工具名映射（跨平台）」段）。
+- **路径占位符（首次使用必读）**：正文使用 `<memory_root>` / `<project-slug>` 占位符，执行前先替换：
+  - `<memory_root>` = agent 的 memory 根目录。常见环境：TRAE → `.trae-cn/memory`；Claude Code → projects 目录；WorkBuddy → `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；无现成 memory 系统时，在项目内建 `.agent-memory/` 即可。
+  - `<project-slug>` = 当前 workspace 的项目目录名（如 `open-source`）。
+  - **不确定怎么填？** 先 `ls`（POSIX）/ `Get-ChildItem`（PowerShell）查看你的 agent 环境已有目录，对照上述示例再替换；**不要凭空猜路径**。若环境确无 memory 系统，相关步骤标 `not-applicable`，不编造证据。
+- **工具**：文件搜索（Grep/Read/LS）+ shell（PowerShell 示例；平台工具名映射与 POSIX 等价命令见 SKILL.md「工具名映射（跨平台）」段）；subagent/task 派生为**可选能力**——无则自动走降级模式（见 SKILL.md「无子代理平台的降级模式」：串行替代并行，显式标注 `degraded (no-subagent)`）。
 - **MCP 扩展**：本 skill 与 MCP **互补**——MCP 提供外部工具/数据连接，本 skill 教 agent 如何编排这些工具的复杂工作流。如需接入 MCP，把 MCP server 作为**可选工具**声明（如 `compatibility` 字段注明「需要 X MCP 时使用」，无 MCP 时回退到内建工具），不要把 skill 绑定死在特定 server 上。
 
 ## 版本兼容性
@@ -101,9 +104,8 @@ npx skills add https://github.com/1273984347/agent-session-loop
 |---|---|
 | SKILL.md 版本 | 1.0.1 |
 | Agent Skills 标准 | 兼容（[agentskills.io](https://agentskills.io) 开放标准，frontmatter: name/description/license/metadata） |
-| frontmatter 校验 | 通过 `skills-ref validate`（CI 自动检查，见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
-| 结构回归检查 | 通过 `python evals/validate.py`（CI 自动检查） |
-| 运行依赖 | 无 Python/Node 脚本；需 subagent/task 派生 + 文件搜索工具（Grep/Read） |
+| CI 门禁 | 五步：`skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py`（见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
+| 运行依赖 | skill 运行：文件搜索（Grep/Read）+ 可选 shell；subagent 可选（无则降级）；CI lint 脚本仅开发期需要 |
 | MCP 依赖 | 无（可选接入） |
 | 联动 skill | [deep-review-loop](https://github.com/1273984347/deep-review-loop)（审查）/ [mem-wrap-up](https://github.com/1273984347/mem-wrap-up)（收尾）/ [self-evolution](https://github.com/1273984347/self-evolution)（沉淀）——不装也能独立运行 |
 
