@@ -111,9 +111,10 @@ The agent auto-activates this skill and runs the three phases on session wrap-up
 
 | Client | Install method | Support |
 |---|---|---|
-| TRAE | Copy folder into skills dir, auto-registered | ✅ |
 | Claude Code | `/plugin marketplace add` or copy folder | ✅ |
 | Codex / Cursor / OpenCode etc. | Copy folder (Agent Skills standard clients) | ✅ |
+| WorkBuddy / QwenWork | Copy folder into skills dir, auto-registered | ✅ |
+| TRAE | Copy folder into skills dir, auto-registered | ✅ |
 | Others | Requires SKILL.md frontmatter + progressive disclosure | Depends |
 
 ## License
