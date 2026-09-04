@@ -4,6 +4,22 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-05
+
+### Added
+- Phase 1 独立性边界（references/01-review.md）：subagent 隔离的是上下文不是认知——证据独立是唯一独立性来源（各自采集，转引视同证据缺失）、一致但证据同源按 1 票计、verifier 分歧升级为 file:line 证据比对、出口 ACK 门禁是认知级盲区的唯一补偿
+- 严重度地板分 `scripts/severity_score.py`（外部静态下界，纯 stdlib）：模型定性可上调不可低于地板（P0 凭据/数据丢失信号、P1 崩溃/测试失败信号）；dispute 项强制进 residual risk 并触发出口 ACK 门禁（P2 自动放行通道关闭）；局限显式声明——地板分是下界不是分类器，无信号不得作为降级依据
+- Phase 3 反例降级回路（防坏经验复利）：pattern/heuristic frontmatter 新增 `based_on` / `counter_examples` / `last_verified` / `reuse_count` 溯源字段；降级铁律（反例 → 立即降级回 experience，「记个例外但保留规则」禁止）；快速模式新增 Step 2.5 反例检查（与既有 knowledge 规则冲突的踩坑必须触发降级）
+- Phase 2 memory audit 新增 knowledge 层健康检查（并 6 面矩阵）：`review_status: pending` 清单 + `counter_examples` 非空失效 + pending 超期 30 天降权「仅历史参考」；毕业判据加前置——`reviewed` 且无反例才能毕业进权威文档
+- 5Why 未知标注（防深度幻觉）同步到整合版（references/02-wrap-up.md sediment + references/03-evolution.md 维度 5/11）：证据无法支撑的层级写 `[未知：超出当前上下文]` 停止深挖，不强制凑满，禁止编造因果链（对齐 self-evolution 模板既有规则）
+- Failure handling 新增验证命令通用细则：exit code ≠ 0 → 按工具失败处理，不得把命令报错输出解释为业务结论（区分「git 说没 track」与「git 命令报错」）
+- 路径预检新增首次运行回显确认：预检通过后向用户回显「平台推断 → 实际路径」映射依据，确认后再启动
+- 安全扫描专业工具优先（可选增强）：环境存在 gitleaks / trivy 时先跑专业工具并以输出为主证据，不可用回退 4+1 正则 + 局限标注（降级 ≠ 跳过）
+
+### Changed
+- SKILL.md Phase 1 协议：R1a 条目加独立性边界指针；4 层过拟合防护追加严重度地板分（不改「4 层」既定叫法，SVG/博客/联动声明零波及）；Self-Disclosure 增地板分与独立性边界两行
+- memory 路径约定补 Linux 显式映射（Claude Code `~/.claude/projects`），注明 `~/` 开头路径在 macOS 与 Linux 通用
+
 ## [1.0.3] - 2026-09-04
 
 ### Fixed

@@ -56,7 +56,21 @@ Prompt 必须含：default refuted=true + 严重度门槛（P0 崩溃/安全/数
 
 **NOT inline**（Self-audit ≠ 独立审计）。Tasks：交叉核对 R1a/R1b findings（claim vs evidence）→ 矛盾优先级裁决 → memory sync 审计 → verdict grep 审计 → **边际收益 gate**（修复成本 > 危害 × 3 → 标记「建议接受残留」+ 理由）。
 
+### 独立性边界（R1a/R1b/R2 适用，认知局限必读）
+
+subagent 隔离的是**上下文**，不是**认知**：R1a/R1b/R2 与主代理共享同一个 Base Model，模型级盲区（对同类问题的系统性误判）无法靠自审消除。由此三条铁律：
+
+- **证据独立是唯一的独立性来源**：每个 verifier 的证据必须来自自己的工具调用（自己 Grep / 自己 Read / 自己跑命令），转引其他 verifier 或主代理的命中结果视同证据缺失（对齐 R1a 硬性要求「禁止二手转述」）。结论一致但证据同源 → 按 1 票计，不算 3 票佐证。
+- **分歧必须升级**：verifier 结论冲突时禁止少数服从多数，升级为 file:line 级证据比对；无法裁决 → 降级为 residual risk 进出口 ACK 门禁，不允许仲裁者拍脑袋。
+- **人类是认知级盲区的唯一补偿**：出口 ACK 门禁（P1+ 必须人类确认）存在的根本原因即在此，不是流程仪式。
+
 ### R3 convergence + residual + alarms
+
+**前置：严重度地板分（外部静态下界，必跑）**：
+- 收敛判定前必跑 `python scripts/severity_score.py findings.jsonl`（纯 stdlib，确定性；输入 = R1a/R1b/R2 的 findings，每行 `{id, file, evidence, model_severity}`）
+- floor 规则：模型定性只可上调、不可低于地板；`dispute=true`（模型定性低于地板）→ 地板生效 + 该条强制进 residual risk 清单
+- 任一 dispute 存在 → 本次收敛按「含 P1 残留」处理，P2 自动放行通道关闭，触发出口 ACK 门禁
+- 局限显式声明：地板分只覆盖可 Grep 的显性信号，是下界不是分类器；「无信号」不得作为降级依据
 
 **Residual risk 必含 3 类**（各附 fresh verification command + exit code + output 截取）：
 1. subagent 盲点 2. sample/time-point 3. 跨 session
@@ -80,7 +94,7 @@ Round N: P0=0 / P1=0 / P2≤N_max / 接受残留=P1:A1/P2:A2 / 回归率≤30% (
 | 修复成本 > 危害 × 3 | ⚠️ 接受残留 |
 | 优先级 | 警报 A/B > 边际收益 gate > P2 超标 |
 
-**出口 ACK 门禁**：residual risk 含 P1 及以上，或判定含「接受残留」→ 等待人类 `ACK + 风险接受` 才能进入 Phase 2；仅 P2 残留 → 自动放行，收尾报告标注「待确认项」。
+**出口 ACK 门禁**：residual risk 含 P1 及以上，或判定含「接受残留」，或存在严重度地板分 dispute → 等待人类 `ACK + 风险接受` 才能进入 Phase 2；仅 P2 残留且无 dispute → 自动放行，收尾报告标注「待确认项」。
 
 ## 5 步独立 verify（V1-V5）
 

@@ -25,6 +25,8 @@
 2. 有明确规则 → 追加 `experience-quickref.md`（`[编号] [关键词] — [一句话规则]`）
 3. 有 Skill 缺口 → 追加 `skill-usage-checklist.md`（`| [Skill名] | [场景] | [为什么没用] |`）
 
+**Step 2.5：反例检查（强制，防坏经验复利）**：本 session 的踩坑若与既有 `knowledge/patterns/` / `knowledge/heuristics/` 规则冲突（按规则执行反而踩坑）→ 触发 Step 4 的「降级铁律」，`counter_examples` 追加本 session 证据 id。Grep knowledge/ 关键词 vs 本 session 踩坑关键词即完成初筛；无 knowledge/ 目录 → 标 `not-applicable`。
+
 **Step 3：模式升级检查**：同类问题 ≥3 次 → 提案升级到 `knowledge/patterns/` 或 `knowledge/heuristics/`
 
 ## 模式 B：全面复盘（手动触发）
@@ -51,6 +53,8 @@
 | 10 | 工具链 sub-protocol 反思 | 可选 | 单工具链层撞坑（≥3 次同类才走） |
 | 11 | 复盘过程中出现的问题 | ✅ 必走 | 元层兜底：撞坑分类表 + 5Why 元层根因 + 反模式识别 |
 
+**5Why 未知标注（防深度幻觉，维度 5/11 适用）**：当前上下文（代码/日志/memory）无法支撑的层级，禁止编造因果链——写 `[未知：超出当前上下文，需跨 session/人工补充]` 并停止深挖该分支；允许挖到第 N 层即标注未知，**不强制凑满 5 层**，宁缺毋滥（模板详见 self-evolution 的 references/11-dimensions-template.md）。
+
 **Step 3：生成报告** → `<memory_root>/projects/<project-slug>/<date>/retrospective.md`（11 段结构，每段对应一个维度输出）
 
 **Step 3.5：多件套同步 verify（强制）**——漏任一件 = 复盘未闭环：
@@ -70,8 +74,14 @@
 | heuristic 效果显著 | 写入 `knowledge/policies/`（**需人工确认**） |
 
 - **复核标记**：自动创建的 pattern/heuristic 文件 frontmatter 必须含 `review_status: pending`；人工复核通过后改为 `reviewed`。任何自动升级的规则在 `reviewed` 前**不得作为权威规则**驱动后续决策——只作参考候选。
-- knowledge/ 文件 frontmatter 标准：name / description / type / id / level / tags / review_status
+- **溯源与反例字段**：pattern/heuristic frontmatter 必含 `based_on`（支撑它的 experience id 列表）/ `counter_examples`（反例 id 列表，空数组起步）/ `last_verified`（最近一次复用验证日期）/ `reuse_count`（被后续 session 复用次数）。升级门槛（≥3 次 / >80% 成功率）的判定依据必须是这些字段的记录，不允许凭印象升级。
+- knowledge/ 文件 frontmatter 标准：name / description / type / id / level / tags / review_status / based_on / counter_examples / last_verified / reuse_count
 - 安全规则：只创建新文件不覆盖；已存在 → 追加；policies 一律人工确认
+
+**降级铁律（升级慢、降级快——防坏经验复利）**：
+- 任一后续 session 出现反例 → 立即把该 pattern/heuristic 降级回 experience，`counter_examples` 追加反例 id，禁止「记个例外但保留规则」
+- `counter_examples` 非空的规则 → 权威性立即失效，等同 `review_status: pending` 之前的状态（只作历史参考，不得作为依据引用）
+- 降级动作本身走 sediment 写入协议（Read-before-Edit + Grep-verify-after-Edit），反例来源 session/证据 id 必须可追溯
 
 **Step 5：执行行动计划（按优先级分流）**
 
