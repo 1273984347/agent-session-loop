@@ -25,6 +25,14 @@ jobs:
         # 只靠 job 级 env 的 TESSL_TOKEN，CLI 会报 "requires you to be logged in"
         with:
           token: ${{ secrets.TESSL_TOKEN }}
+      - name: Diagnose CLI auth surface (temporary)
+        if: ${{ env.TESSL_TOKEN != '' }}
+        run: |
+          tessl --version
+          echo "=== tessl --help ==="; tessl --help || true
+          echo "=== login help ==="; tessl login --help || true
+          echo "=== whoami ==="; tessl whoami || true
+          echo "=== skill review help ==="; tessl skill review --help || true
       - name: Review skill quality
         if: ${{ env.TESSL_TOKEN != '' }}
         # 已废弃（官方建议迁移 tessl review run，需绑定 workspace），2026-07 后可能移除
