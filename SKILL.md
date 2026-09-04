@@ -10,9 +10,9 @@ description: >
   Do not trigger for one-off single-file edits or casual Q&A, or when the user asks for a standalone
   deep review or retro — use deep-review-loop / self-evolution instead.
 license: Apache-2.0
-compatibility: Agent-agnostic. Requires file search (Grep/Read) and a memory directory convention; subagent/task spawning optional (degradation mode when absent).
+compatibility: Requires filesystem + shell (PowerShell/POSIX) + file search (Grep/Read); memory directory convention; subagent/task spawning optional (degradation mode when absent). Shell-less web agents not supported.
 metadata:
-  version: "1.0.2"
+  version: "1.0.3"
 ---
 
 # agent-session-loop
@@ -142,6 +142,8 @@ metadata:
 
 **阶段出口条件**：收尾报告（影响 / 改动 / 待确认 / 遗留）+ sediment 记录 → 进入 Phase 3。
 
+> **整合流水线防重复（防 ping-pong）**：Phase 2 的 mem-wrap-up Step 7b（DRL 5 轮）在整合流水线内不重复完整执行——Phase 1 已产出收敛曲线 + residual risk，Step 7b 标 `not-applicable (covered by Phase 1)` 或降级为精简 spot-check，避免同一收尾双跑 DRL；同理 Phase 2 收敛后不再回触 mem-wrap-up 重入收尾。
+
 > 本阶段可与独立 skill [mem-wrap-up](https://github.com/1273984347/mem-wrap-up) 互换。
 
 ## Phase 3：沉淀（Evolution）
@@ -196,6 +198,7 @@ metadata:
 
 ## Verdict 字眼合规自检
 - 全文 Grep 禁词：`完成|PASS|12/12|闭环|OK|没问题|looks good`
+- grep 命中先剔除禁词定义行本身：meta-skill 场景下目标文件（本 skill / 参考文档）内嵌的禁词清单字符串会自匹配，必须剔除含 pattern 的定义行后重新计数；「OK」子串误报（TOKEN / BROKEN 等全大写词）同理
 - 用「数据 + 实证 + residual risk 列表」代替 verdict 字眼
 - 历史 log 文件例外（引用过往 verdict 不算违规）
 

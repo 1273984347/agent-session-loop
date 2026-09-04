@@ -102,12 +102,14 @@ The agent auto-activates this skill and runs the three phases on session wrap-up
 
 | Check | Value |
 |---|---|
-| SKILL.md version | 1.0.2 |
+| SKILL.md version | 1.0.3 |
 | Agent Skills standard | Compatible ([agentskills.io](https://agentskills.io); frontmatter: name/description/license/metadata) |
 | CI gate | Five steps: `skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py` (see [.github/workflows/validate.yml](.github/workflows/validate.yml)) |
-| Runtime deps | Skill runtime: file search (Grep/Read) + optional shell; subagent optional (degradation mode when absent); CI lint scripts are dev-time only |
+| Runtime deps | Skill runtime: filesystem + shell (PowerShell/POSIX) + file search (Grep/Read); subagent optional (degradation mode when absent); shell-less web agents not supported; CI lint scripts are dev-time only |
 | MCP deps | None (optional) |
 | Linked skills | [deep-review-loop](https://github.com/1273984347/deep-review-loop) / [mem-wrap-up](https://github.com/1273984347/mem-wrap-up) / [self-evolution](https://github.com/1273984347/self-evolution) — works standalone |
+
+**Cost expectations**: a full session close-out runs all three phases; Phase 1 spawns up to 5 subagents per round (R1a×3 + R1b + R2), which is token-heavy. Pure debugging sessions should use the trimmed execution (trimmed phases marked `not-applicable`). In token-sensitive environments default to the trimmed mode and run the full pipeline only at major milestones.
 
 **Client compatibility**:
 

@@ -102,12 +102,14 @@ npx skills add https://github.com/1273984347/agent-session-loop
 
 | 检查项 | 值 |
 |---|---|
-| SKILL.md 版本 | 1.0.2 |
+| SKILL.md 版本 | 1.0.3 |
 | Agent Skills 标准 | 兼容（[agentskills.io](https://agentskills.io) 开放标准，frontmatter: name/description/license/metadata） |
 | CI 门禁 | 五步：`skills-ref validate` + `python evals/validate.py` + `python evals/run_behavior.py` + `python scripts/version-lint.py` + `python scripts/fragment-lint.py`（见 [.github/workflows/validate.yml](.github/workflows/validate.yml)） |
-| 运行依赖 | skill 运行：文件搜索（Grep/Read）+ 可选 shell；subagent 可选（无则降级）；CI lint 脚本仅开发期需要 |
+| 运行依赖 | skill 运行：文件系统 + shell（PowerShell/POSIX）+ 文件搜索（Grep/Read）；subagent 可选（无则降级）；无 shell 的纯 Web agent 不支持；CI lint 脚本仅开发期需要 |
 | MCP 依赖 | 无（可选接入） |
 | 联动 skill | [deep-review-loop](https://github.com/1273984347/deep-review-loop)（审查）/ [mem-wrap-up](https://github.com/1273984347/mem-wrap-up)（收尾）/ [self-evolution](https://github.com/1273984347/self-evolution)（沉淀）——不装也能独立运行 |
+
+**成本预期**：完整 session 收尾走全三阶段，Phase 1 单轮最多派 5 个 subagent（R1a×3 + R1b + R2），token 消耗显著；纯调试 session 用「精简执行」裁剪（被裁剪阶段标 `not-applicable`）。token 敏感环境建议默认精简模式，重大里程碑再跑全量。
 
 **客户端兼容矩阵**：
 
