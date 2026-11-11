@@ -8,7 +8,8 @@ description: >
   将 Agent 会话完整生命周期整合为一条流水线：深度复检（审查）→ 7 步收尾 → 复盘沉淀。
   会话收尾、批量修复/长文档完成后、用户说「收尾/复检/复盘/retro」、或文档与代码不一致需完整闭环时使用。
   Do not trigger for one-off single-file edits or casual Q&A, or when the user asks for a standalone
-  deep review or retro — use deep-review-loop / self-evolution instead.
+  deep review or retro — use deep-review-loop / self-evolution instead; standalone wrap-up only
+  (no review/evolution needed) → mem-wrap-up.
 license: Apache-2.0
 compatibility: Requires filesystem + shell (PowerShell/POSIX) + file search (Grep/Read); memory directory convention; subagent/task spawning optional (degradation mode when absent). Shell-less web agents not supported.
 metadata:
@@ -168,7 +169,7 @@ metadata:
 
 本 skill 涉及 memory 操作时，使用占位符路径，按你的环境替换：
 
-- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）/ `~/.claude/projects`（Linux）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；`~/` 开头的路径在 macOS 与 Linux 通用；无现成 memory 系统时在项目内建 `.agent-memory/`）
+- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）/ `~/.claude/projects`（Linux）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；ZCode `~/.zcode/cli/memories/projects/<project-slug>/memory/`；`~/` 开头的路径在 macOS 与 Linux 通用；无现成 memory 系统时在项目内建 `.agent-memory/`）
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
 
