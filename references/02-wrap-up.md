@@ -28,6 +28,11 @@
 5. **broken-link audit**：Grep `file:///|\.md\)` 找链接，逐个 Test-Path 验证（macOS/Linux：`test -e`）
 - **输出**：5 phase 报告 + 6 面状态矩阵
 
+**knowledge 层健康（并 6 面状态矩阵的「规则/记忆」面，防坏经验复利）**：
+- Grep `review_status: pending`：列出全部待复核 pattern/heuristic
+- Grep `counter_examples: \[.+\]`：非空反例列表 → 该规则权威性已失效，列入收尾报告「待确认项」
+- `last_verified` 早于 30 天的 pending 规则 → 标「超期未复核，仅历史参考」，不得在后续 session 作为依据引用
+
 **6 面状态矩阵**：代码 / 运行态 / 文档 / 规则 / 记忆 / 工作区。每面标 `verified-current` / `changed-and-verified` / `pending` / `out-of-scope` / `not-applicable`。
 - 小项目不硬凑六面（无部署 → 运行态 not-applicable；无记忆系统 → 记忆面 not-applicable）
 - `git status` 干净 / 测试通过 ≠ 全部同步，必须逐面验证
@@ -45,7 +50,7 @@
 - Grep 当前版本号：每个项目层文件 ≥1 命中（在「当前版本」段，非历史段）
 - Grep 任务 ID：每个文件 ≥1 命中
 - 历史 vs 现役区分：CHANGELOG 历史段保留旧值；README 头部/当前段必须更新
-- `git ls-files <file>` 验证 tracked（Edit 成功 ≠ git tracked）
+- `git ls-files <file>` 验证 tracked（Edit 成功 ≠ git tracked）；命令 exit code ≠ 0 → 按工具失败处理，不得把命令报错输出解释为业务结论（区分「git 说没 track」与「git 命令报错」），无法区分 → 标 `unverifiable` 询问用户
 - 判据：命中 <1 → P1 假收敛立即修；未 tracked → git add；历史段误改 → 回滚
 
 ### 4b work-log 追加 4 段 schema
@@ -53,6 +58,7 @@
 - 4 段 schema（必含）：verification cost / throughput decoupling / ANED 3 指标 / session-end security scan（4+1 pattern：敏感信息/密钥/token/内部 URL/PII）
 - 必含字段：date / session_id / milestones / retro_link
 - **安全扫描局限标注**：0 发现时**必须**附注「本扫描为正则匹配（4+1 pattern），仅覆盖硬编码格式（如 `AKIA…`、`sk-…`），不覆盖配置类风险（权限、未加密连接串、暴露的内部 API）——不作为安全审计结论」；不得以「0 发现」表述为「安全通过」。
+- **专业工具优先（可选增强）**：环境存在 gitleaks / trivy 等专业扫描工具时，先跑专业工具并以输出为主证据；不可用时回退 4+1 正则 + 上方局限标注（降级 ≠ 跳过，与无子代理降级同一哲学）。
 
 ## 步骤 5：经验沉淀（sediment）
 
@@ -62,12 +68,15 @@
 - **Retry-on-fail**：失败重新 Read + Edit（最多 3 次），3 次仍失败记录 session_memory
 - **案例不写入 user_profile**：只放 active 规则 + 指针，案例归档 retrospective
 
-**动作**：提炼复利经验（5Why ≥3 层）→ 判断归属（user 级 / 项目级 / topic）→ Edit 追加 → Grep 验证 → 同步 retrospective
+**动作**：提炼复利经验（5Why ≥3 层为目标；证据无法支撑的层级按下方「未知标注」停止深挖，宁缺毋滥）→ 判断归属（user 级 / 项目级 / topic）→ Edit 追加 → Grep 验证 → 同步 retrospective
+
+**5Why 未知标注（防深度幻觉）**：当前上下文（代码/日志/memory）无法支撑的层级，禁止编造因果链——写 `[未知：超出当前上下文，需跨 session/人工补充]` 并停止深挖该分支；不允许为凑满 ≥3 层而编造（与 self-evolution 的 11 维度模板同一规则）。
 
 **记忆毕业判据**（何时从 memory 升级到权威文档）：
 1. 讲的是稳定机制（非一次性）
 2. 同一教训反复出现（≥3 次）
 3. 接手者必须知道（影响下次 session 恢复）
+- **毕业前置**：来源规则的 `review_status` 必须 `reviewed` 且 `counter_examples` 为空——待复核或带反例的规则不得毕业进权威文档
 - 毕业后：结论并入 docs，memory 缩成指针，**不复制成第二处真相**
 - 不毕业：一次性事故 / 个人偏好 / 未稳定探索 → 留在 memory
 

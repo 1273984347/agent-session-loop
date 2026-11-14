@@ -2,17 +2,21 @@
 name: agent-session-loop
 description: >
   Manages the full agent session lifecycle as a single pipeline: deep review (审查) → wrap-up (收尾) →
-  evolution (沉淀). Use at session end, after batch fixes or large docs, when the user says
-  "收尾 / wrap up / 复检 / 复盘 / retro", or when docs and code mismatch and the session needs a complete
-  close-out with memory sedimentation.
+  evolution (沉淀). Use when the user wants the complete three-stage close-out — says
+  "收尾闭环 / 完整闭环 / 完整收尾 / 三阶段 / 走完收尾流程 / 审查→收尾→沉淀", or when docs and code mismatch and the
+  session needs review + wrap-up + sedimentation in one pass.
   将 Agent 会话完整生命周期整合为一条流水线：深度复检（审查）→ 7 步收尾 → 复盘沉淀。
-  会话收尾、批量修复/长文档完成后、用户说「收尾/复检/复盘/retro」、或文档与代码不一致需完整闭环时使用。
-  Do not trigger for one-off single-file edits or casual Q&A, or when the user asks for a standalone
-  deep review or retro — use deep-review-loop / self-evolution instead.
-license: Apache-2.0
+  需要完整闭环（审查→收尾→沉淀）时使用：用户说「收尾闭环/完整闭环/完整收尾/三阶段/走完收尾流程」、批量修复或长文档完成后、
+  或文档与代码不一致需一次性走完三阶段。
+  只收尾（不需要复检与沉淀）时归 mem-wrap-up；本 skill 只接完整三阶段。
+  Do not trigger for one-off single-file edits or casual Q&A. Boundary — route each narrower skill
+  separately instead: standalone deep review ("复检 / 收敛 / DRL / 重新审查") → deep-review-loop;
+  standalone retro / sedimentation ("复盘 / retro / 记住这个 / 经验沉淀") → self-evolution;
+  standalone wrap-up only ("整理文档和记忆", no review or evolution needed) → mem-wrap-up.
+# license: Apache-2.0 —— 已移出 frontmatter（Mavis 不识别该键）；许可证全文见 repo/LICENSE
 compatibility: Requires filesystem + shell (PowerShell/POSIX) + file search (Grep/Read); memory directory convention; subagent/task spawning optional (degradation mode when absent). Shell-less web agents not supported.
 metadata:
-  version: "1.0.3"
+  version: "1.1.0"
 ---
 
 # agent-session-loop
@@ -80,13 +84,14 @@ metadata:
 | 收尾 → 沉淀 | sediment（编号+5Why 链）+ work-log | 复盘维度 1/5/9 的输入 |
 | 沉淀 → 下一 session | 知识层升级 + 行动项 | 下次会话的规则与 checklist |
 
-## 触发条件
+## 进入流水线的时机（触发判定见 frontmatter description）
 
-- 会话收尾（用户说「收尾 / wrap up」）
-- 批量修复（>10 项）或长文档/方案/skill 写完后
-- 用户说「复检 / 收敛 / DRL / 复盘 / retro」
+- 会话收尾（用户说「收尾 / wrap up」）且需要走完审查→收尾→沉淀三阶段
+- 批量修复（>10 项）或长文档/方案/skill 写完后，需一次性闭环
 - session 已跑 30+ 轮 / token 接近上限 / 重大里程碑达成
 - 怀疑假收敛 / 文档与代码不一致，需要完整闭环
+
+本节只列「何时进入流水线」；**该不该由哪个 skill 接手**的判定一律以 frontmatter description 为准。
 
 ## 精简执行（按场景裁剪）
 
@@ -110,16 +115,17 @@ metadata:
 **核心协议**（详情见 [references/01-review.md](references/01-review.md)）：
 
 1. **R0 表面检查**：file size + verdict 字眼 grep + expected hits 必现 + 项目阶段判定（N_max）
-2. **R1a 3 独立 verifier**（3 subagent parallel，factual / completeness / reusability，必附工具证据）
+2. **R1a 3 独立 verifier**（3 subagent parallel，factual / completeness / reusability，必附工具证据；独立性边界见 references/01-review.md——证据必须各自采集，一致 ≠ 佐证）
 3. **R1b 对抗性审查**（1 subagent，default refuted=true + class-level scope + 严重度门槛）
 4. **R2 独立审计**（1 subagent，NOT inline，边际收益 gate）
 5. **R3 收敛判定**（≥3 residual risk + 收敛曲线 + 过拟合警报）
 
-**4 层过拟合防护**（本阶段强制执行）：
+**4 层过拟合防护 + 严重度地板分**（本阶段强制执行）：
 - 层 1：P2 残留 N（比赛级 0 / 生产 3 / 原型 10）；P0/P1 必须为 0
 - 层 2：边际收益 gate（修复成本 > 危害 × 3 → 标记接受残留）
 - 层 3：过拟合警报（增强版：P0 反弹 1 轮即 STOP / P1 反弹连续 2 轮 / P0/P1 持平走 4 轮窗口停滞观察 / 回归率 >30% → STOP 报告；被动验证见 references/01-review.md）
 - 层 4：严重度门槛（P3 及以下不报；class-level instance 例外升级 P2）
+- 严重度地板分：外部静态下界（`scripts/severity_score.py`，R3 前必跑）——模型定性可上调不可低于地板，dispute 项强制进 residual risk 并触发 ACK 门禁（详见 references/01-review.md R3 前置）
 
 **阶段出口条件**：真收敛（P0=0 AND P1=0 AND 连续 2 轮无新 P0/P1）→ 携带收敛曲线 + residual risk 进入 Phase 2。
 - **条件 ACK 门禁**：residual risk 含 P1 及以上，或收敛判定含「接受残留」→ 必须等人类 `ACK + 风险接受` 才能进 Phase 2；仅 P2 残留 → 自动放行，但收尾报告须标注「待确认项」。
@@ -167,13 +173,14 @@ metadata:
 
 本 skill 涉及 memory 操作时，使用占位符路径，按你的环境替换：
 
-- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；无现成 memory 系统时在项目内建 `.agent-memory/`）
+- `<memory_root>` = agent 的 memory 根目录（按平台映射：TRAE `~/.trae-cn/memory`；Claude Code `%USERPROFILE%\.claude\projects`（Windows）/ `~/Library/Application Support/Claude/projects`（macOS）/ `~/.claude/projects`（Linux）；WorkBuddy `~/.workbuddy/memory/` 或项目内 `.workbuddy/memory/`；ZCode `~/.zcode/cli/memories/projects/<project-slug>/memory/`；`~/` 开头的路径在 macOS 与 Linux 通用；无现成 memory 系统时在项目内建 `.agent-memory/`）
 - `<project-slug>` = 当前 workspace 对应的 memory 项目目录名（执行时按当前 cwd 映射）
 - `<date>` = 当日日期目录（`YYYYMMDD`）
 
 **路径预检（首次运行强制）**：
 - 用占位符前必须先验证路径存在：`test -e <memory_root>`（macOS/Linux）或 `Test-Path <memory_root>`（Windows）。
 - **预检失败 → 中断并问用户**，不允许用「猜测的路径」继续跑流水线。
+- **首次运行回显确认**：预检通过后，向用户回显「平台推断 → 实际路径」的映射依据（memory_root / project-slug / date 三项），确认后才开始流水线；project-slug 目录已存在的后续运行免重复确认。
 - **Grep 空结果判别**：Grep 返回 0 hits 时，先确认是「路径错误 / 文件不存在」还是「内容真无匹配」——用 `test -e` 验证目标文件/目录存在后再下结论；无法区分时标 `unverifiable` 并询问用户，**不得把「空结果」当「通过」**。
 
 **文件结构约定**：
@@ -204,13 +211,15 @@ metadata:
 
 ## Failure handling
 - 任一步骤失败 → 不继续下一步，stderr 报告
+- **验证命令 exit code ≠ 0 → 按工具失败处理**，不继续下一步；不得把命令报错输出解释为业务结论（e.g. 区分「git 说没 track」与「git 命令报错」），无法区分 → 标 `unverifiable` 并询问用户
 - 裁剪必须显式标注 `not-applicable` + 理由，不允许静默跳过
 - Token 超额（Phase 1 派 3 subagent）→ 降级为 1 subagent / 分批派 / 等 user 拍板
 
 ## Self-Disclosure
 - 0 verdict 字眼
 - 三阶段按序执行，被裁剪阶段显式标注 `not-applicable`
-- Phase 1 必出收敛曲线 + ≥3 residual risk
+- Phase 1 必出收敛曲线 + ≥3 residual risk；必跑严重度地板分（dispute 项必进 residual risk）
+- R1 独立性边界：证据各自采集，一致 ≠ 佐证；verifier 分歧升级证据比对
 - Phase 2 必出收尾报告 + 验证铁律 spot-check（项目层 + memory 层）
 - Phase 3 必出 sediment / 复盘报告 + 多件套 sync verify
 - 4 层过拟合防护必走（P2 残留 N / 边际收益 gate / 过拟合警报 / 严重度门槛）

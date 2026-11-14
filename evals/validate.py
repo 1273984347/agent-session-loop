@@ -18,7 +18,7 @@ SKILL = ROOT / "SKILL.md"
 EVALS_DIR = ROOT / "evals"
 
 # Trigger markers that must stay in the description (see agentskills.io trigger contract).
-EXPLICIT_MARKERS = ("收尾", "wrap up", "复检", "复盘", "retro")
+EXPLICIT_MARKERS = ("收尾闭环", "完整闭环", "完整收尾", "三阶段")   # 批 E 收窄触发面后同步
 
 # Protocol phrases that must stay in the SKILL.md body — losing any of these breaks the pipeline.
 REQUIRED_PHRASES = (
