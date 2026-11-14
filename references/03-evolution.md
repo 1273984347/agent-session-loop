@@ -53,7 +53,7 @@
 | 10 | 工具链 sub-protocol 反思 | 可选 | 单工具链层撞坑（≥3 次同类才走） |
 | 11 | 复盘过程中出现的问题 | ✅ 必走 | 元层兜底：撞坑分类表 + 5Why 元层根因 + 反模式识别 |
 
-**5Why 未知标注（防深度幻觉，维度 5/11 适用）**：当前上下文（代码/日志/memory）无法支撑的层级，禁止编造因果链——写 `[未知：超出当前上下文，需跨 session/人工补充]` 并停止深挖该分支；允许挖到第 N 层即标注未知，**不强制凑满 5 层**，宁缺毋滥（模板详见 self-evolution 的 references/11-dimensions-template.md）。
+**5Why 未知标注（防深度幻觉，维度 5/11 适用）**：当前上下文（代码/日志/memory）无法支撑的层级，禁止编造因果链——写 `[未知：超出当前上下文，需跨 session/人工补充]` 并停止深挖该分支；允许挖到第 N 层即标注未知，**不强制凑满 5 层**，宁缺毋滥（模板详见本包 references/11-dimensions-template.md·自包含副本·权威源 self-evolution）。
 
 **Step 3：生成报告** → `<memory_root>/projects/<project-slug>/<date>/retrospective.md`（11 段结构，每段对应一个维度输出）
 

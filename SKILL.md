@@ -2,15 +2,18 @@
 name: agent-session-loop
 description: >
   Manages the full agent session lifecycle as a single pipeline: deep review (审查) → wrap-up (收尾) →
-  evolution (沉淀). Use at session end, after batch fixes or large docs, when the user says
-  "收尾 / wrap up / 复检 / 复盘 / retro", or when docs and code mismatch and the session needs a complete
-  close-out with memory sedimentation.
+  evolution (沉淀). Use when the user wants the complete three-stage close-out — says
+  "收尾闭环 / 完整闭环 / 完整收尾 / 三阶段 / 走完收尾流程 / 审查→收尾→沉淀", or when docs and code mismatch and the
+  session needs review + wrap-up + sedimentation in one pass.
   将 Agent 会话完整生命周期整合为一条流水线：深度复检（审查）→ 7 步收尾 → 复盘沉淀。
-  会话收尾、批量修复/长文档完成后、用户说「收尾/复检/复盘/retro」、或文档与代码不一致需完整闭环时使用。
-  Do not trigger for one-off single-file edits or casual Q&A, or when the user asks for a standalone
-  deep review or retro — use deep-review-loop / self-evolution instead; standalone wrap-up only
-  (no review/evolution needed) → mem-wrap-up.
-license: Apache-2.0
+  需要完整闭环（审查→收尾→沉淀）时使用：用户说「收尾闭环/完整闭环/完整收尾/三阶段/走完收尾流程」、批量修复或长文档完成后、
+  或文档与代码不一致需一次性走完三阶段。
+  只收尾（不需要复检与沉淀）时归 mem-wrap-up；本 skill 只接完整三阶段。
+  Do not trigger for one-off single-file edits or casual Q&A. Boundary — route each narrower skill
+  separately instead: standalone deep review ("复检 / 收敛 / DRL / 重新审查") → deep-review-loop;
+  standalone retro / sedimentation ("复盘 / retro / 记住这个 / 经验沉淀") → self-evolution;
+  standalone wrap-up only ("整理文档和记忆", no review or evolution needed) → mem-wrap-up.
+# license: Apache-2.0 —— 已移出 frontmatter（Mavis 不识别该键）；许可证全文见 repo/LICENSE
 compatibility: Requires filesystem + shell (PowerShell/POSIX) + file search (Grep/Read); memory directory convention; subagent/task spawning optional (degradation mode when absent). Shell-less web agents not supported.
 metadata:
   version: "1.1.0"
@@ -81,13 +84,14 @@ metadata:
 | 收尾 → 沉淀 | sediment（编号+5Why 链）+ work-log | 复盘维度 1/5/9 的输入 |
 | 沉淀 → 下一 session | 知识层升级 + 行动项 | 下次会话的规则与 checklist |
 
-## 触发条件
+## 进入流水线的时机（触发判定见 frontmatter description）
 
-- 会话收尾（用户说「收尾 / wrap up」）
-- 批量修复（>10 项）或长文档/方案/skill 写完后
-- 用户说「复检 / 收敛 / DRL / 复盘 / retro」
+- 会话收尾（用户说「收尾 / wrap up」）且需要走完审查→收尾→沉淀三阶段
+- 批量修复（>10 项）或长文档/方案/skill 写完后，需一次性闭环
 - session 已跑 30+ 轮 / token 接近上限 / 重大里程碑达成
 - 怀疑假收敛 / 文档与代码不一致，需要完整闭环
+
+本节只列「何时进入流水线」；**该不该由哪个 skill 接手**的判定一律以 frontmatter description 为准。
 
 ## 精简执行（按场景裁剪）
 

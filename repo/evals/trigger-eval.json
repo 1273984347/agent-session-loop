@@ -2,11 +2,11 @@
   "skill_name": "agent-session-loop",
   "queries": [
     {
-      "query": "这个 session 快结束了，帮我收尾",
+      "query": "这个 session 快结束了，帮我走完收尾闭环",
       "should_trigger": true
     },
     {
-      "query": "帮我 wrap up 一下，整理文档和记忆",
+      "query": "帮我完整走一遍审查→收尾→沉淀",
       "should_trigger": true
     },
     {
@@ -31,6 +31,14 @@
     },
     {
       "query": "这条经验帮我复盘沉淀一下",
+      "should_trigger": false
+    },
+    {
+      "query": "这个 session 快结束了，帮我收尾",
+      "should_trigger": false
+    },
+    {
+      "query": "帮我 wrap up 一下，整理文档和记忆",
       "should_trigger": false
     },
     {
